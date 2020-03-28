@@ -1,9 +1,11 @@
 \documentclass{article}
 
 \usepackage{tikz}
+\usepackage{graphicx}
+\graphicspath{ {./figures/} }
 
 \title{Personal Issue Tracker Proposal}
-\author{XTeam-212: Alec Lowry, Martin Diges, Tyler Johnston, Mingrui Leng}
+\author{XTeam-212: Martin Diges, Tyler Johnston, Mingrui Leng, Alec Lowry}
 
 \begin{document}
 
@@ -23,11 +25,12 @@ Primarily designed with software development in mind, but could be used for most
 
 \section{Graphical User interface}
 
-    % TODO - Prettify guis
+    \fbox{ \includegraphics[scale=0.175]{IssueTrackerGUI_IssueList.png} }
+    \fbox{ \includegraphics[scale=0.175]{IssueTrackerGUI_NewIssue.png} }
 
 \section{Data Structure}
 
-    ProjectList > Project > IssueList > Issues
+    \includegraphics[scale=.6]{IssueTracker_UML.png}
 
 \section{Input Data File Format}
 
