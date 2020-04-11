@@ -1,0 +1,28 @@
+{
+    "a34f5c": {
+        "name": "Project01-Foo",
+        "open": true,
+        "dateOpened": "2-1-2020 14:33 +0600",
+        "dateLastAccessed": "2-3-2020 11:14 +0600",
+        "dateClose": "",
+        "deadline": "5-4-2020 17:00 +0600",
+        "description": "Did you ever hear the Tragedy of Darth Plagueis the wise? I thought not. It's not a story the Jedi would tell you. It's a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life... He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful... the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. It's ironic he could save others from death, but not himself.",
+        "issueList": {
+            "jhd435": {
+                "name": "Create Makefile",
+                "id": "jhd435",
+                "status": true,
+                "assignees": {
+                    "assignee01": "Alec Lowry",
+                    "assignee02": "Teddy Roosevelt"
+                },
+                "priority": 7,
+                "dateCreated": "3-21-2020 3:21 +0600",
+                "dateLastAccessed": "3-21-2020 5:04 +0600",
+                "dateClosed": "3-21-2020 3:25 +0600",
+                "deadline": "3-24-2020 5:00 +0600",
+                "description": "Generate a makefile for basic run configs and dir cleanliness"
+            }
+        }
+    }
+}
