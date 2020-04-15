@@ -10,8 +10,6 @@ features to be implemented. Will compliment git version control for easy trackin
 
 - [ ] Design Issue Interface
 - [ ] Design Project Interface
-- [ ] Lay out program (main method)
-- [ ] Class Table (Thursday)
 
 ### Frontend
 
