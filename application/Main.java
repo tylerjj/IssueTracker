@@ -37,47 +37,25 @@ public class Main extends Application {
 
 	private static final int WINDOW_WIDTH =1000;
 	private static final int WINDOW_HEIGHT = 350;
-	private static final String APP_TITLE = "Hello World!";
+	private static final String APP_TITLE = "IssueTracker";
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// save args example
 		args = this.getParameters().getRaw();
-		Text projectTitle = new Text("New Issue ID 354");
-		projectTitle.setFont(Font.font("Comic Sans MS", 45));
-		TextField titleField = new TextField();
-		titleField.setPromptText("Title");
-		TextArea descriptionField = new TextArea();
-		descriptionField.setPromptText("Description");
-		descriptionField.setPrefRowCount(5);
-		TextField AField = new TextField();
-		AField.setPromptText("Assignee's Name");
-		Button assigneeButton = new Button("Add");
-		HBox assigneeField = new HBox();
-		assigneeField.getChildren().addAll(AField, assigneeButton);
-		VBox module = new VBox();
-		module.getChildren().addAll(titleField, descriptionField, assigneeField);
 		
-		ObservableList<String> projectItems = FXCollections.observableArrayList();
-		projectItems.addAll("memes", "The GUI Project", "The Belko Experiment");
-		ListView projectList = new ListView(projectItems);
+		EditIssueBox issueBox = new EditIssueBox(0);
+		EditProjectBox projectBox = new EditProjectBox();
 		
-		// Main layout is Border Pane example (top,left,center,right,bottom)
-		BorderPane dashBoard = new BorderPane();
-		BorderPane root = new BorderPane();
-		dashBoard.setBottom(assigneeField);
-		dashBoard.setCenter(module);
-		dashBoard.setTop(projectTitle);
-		root.setCenter(dashBoard);
-		root.setLeft(projectList);
+		
 		
 		// Add the vertical box to the center of the root pane
 		
-		Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+		//Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		// Add the stuff and set the primary stage
 		primaryStage.setTitle(APP_TITLE);
-		primaryStage.setScene(mainScene);
+		//primaryStage.setScene(mainScene);
 		primaryStage.show();
 	}
 
