@@ -112,14 +112,15 @@ public class IssueTable extends ScrollPane {
 		}
 	}
 	
-	IssueTable(int prefWidth, int prefHeight, ArrayList<Issue> issues){
+	IssueTable(double prefWidth, double prefHeight, ArrayList<Issue> issues){
 		
 		table = new TableView();
 		
 		table.setEditable(false);
-		table.setPrefHeight((double) prefHeight);
-		table.setPrefWidth((double) prefWidth);
-		
+		table.setPrefHeight(prefHeight);
+		table.setPrefWidth(prefWidth);
+		//this.setPrefHeight(prefHeight);
+		//this.setPrefWidth(prefWidth);
 		TableColumn<Rectangle, Issue> priorityColumn = new TableColumn<>("Priority");
 		priorityColumn.setCellValueFactory(new PropertyValueFactory<>("priority"));
 	
@@ -166,5 +167,9 @@ public class IssueTable extends ScrollPane {
 		for (int i = 0; i < issues.size(); i++) {
 			putIssueToRow(issues.get(i));
 		}
+	}
+	
+	public TableView getTable() {
+		return table;
 	}
 }
