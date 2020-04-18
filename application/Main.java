@@ -51,14 +51,11 @@ public class Main extends Application {
 		EditIssueBox issueBox = new EditIssueBox(0);
 		EditProjectBox projectBox = new EditProjectBox();
 		
-		
 		BorderPane root = new BorderPane();
 		
 		SearchBar searchbar = new SearchBar();
 		VBox vbox = new VBox();
 		vbox.getChildren().add(searchbar.toNode());
-		
-		//root.setTop(searchbar.toNode());
 		
 		
 		Calendar calndr = Calendar.getInstance();
@@ -84,13 +81,9 @@ public class Main extends Application {
 		tableHolder.putIssueToRow(i2);
 		tableHolder.putIssueToRow(i3);
 		
-		
-		//root.setRight(tableHolder);
-		
 		vbox.getChildren().add(tableHolder);
 		
 		root.setRight(vbox);
-		// Add the vertical box to the center of the root pane
 		
 		Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 

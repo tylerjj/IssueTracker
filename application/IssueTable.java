@@ -167,4 +167,8 @@ public class IssueTable extends ScrollPane {
 			putIssueToRow(issues.get(i));
 		}
 	}
+	
+	public TableView getTable() {
+		return table;
+	}
 }
