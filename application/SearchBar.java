@@ -1,7 +1,6 @@
 /**
- * Filename:   SearchBar.java
- * Project:    IssueTracker
- * Authors:    Martin Diges	mdiges@wisc.edu
+ * Filename: SearchBar.java Project: IssueTracker Authors: Martin Diges
+ * mdiges@wisc.edu
  * 
  * Represents a search bar as shown in the IssueTracker specifications
  */
@@ -20,8 +19,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 /*
- * The SearchBar class is a representation of the search bar which will appear in the IssueTracker
- * program and includes methods to modify a number of the search bar's components
+ * The SearchBar class is a representation of the search bar which will appear
+ * in the IssueTracker program and includes methods to modify a number of the
+ * search bar's components
  * 
  * @author Martin Diges
  */
@@ -33,6 +33,8 @@ public class SearchBar {
 	private TextField searchBar_TextField;
 	private ChoiceBox<String> searchBy_ChoiceBox;
 	private Button newIssue_Button;
+	private Button editIssue_Button;
+	private Button removeIssue_Button;
 
 	// Creates a new, very basic SearchBar object
 	public SearchBar() {
@@ -52,13 +54,15 @@ public class SearchBar {
 		searchBy_Label = new Label("Search by ");
 		searchBar_TextField = new TextField();
 		setPrompt("Search Issues here");
-		searchBy_ChoiceBox = new ChoiceBox<String>(
-				FXCollections.observableArrayList("Issue Name", "Issue ID", "Assignee"));
+		searchBy_ChoiceBox = new ChoiceBox<String>(FXCollections
+				.observableArrayList("Issue Name", "Issue ID", "Assignee"));
 		searchBy_ChoiceBox.setValue("Issue Name");
 		newIssue_Button = new Button("New Issue");
-
-		searchBar.getChildren().addAll(currentProject_Label, searchBar_TextField, searchBy_Label, searchBy_ChoiceBox,
-				newIssue_Button);
+		editIssue_Button = new Button("Edit Issue");
+		removeIssue_Button = new Button("Remove Issue");
+		searchBar.getChildren().addAll(currentProject_Label,
+				searchBar_TextField, searchBy_Label, searchBy_ChoiceBox,
+				newIssue_Button, editIssue_Button, removeIssue_Button);
 	}
 
 	// Sets the maximum dimensions for the search bar
@@ -76,10 +80,13 @@ public class SearchBar {
 		currentProject_Label.setText("Search Issues in " + newProject);
 	}
 
-	// Changes the project name being displayed on currentProject_Label and allows
+	// Changes the project name being displayed on currentProject_Label and
+	// allows
 	// the user to format its text
-	public void setProjectLabel(String newProject, int textSize, String textFont, String color) {
-		currentProject_Label.setStyle("-fx-font: " + textSize + " " + textFont + "; -fx-base: " + color);
+	public void setProjectLabel(String newProject, int textSize,
+			String textFont, String color) {
+		currentProject_Label.setStyle("-fx-font: " + textSize + " " + textFont
+				+ "; -fx-base: " + color);
 		currentProject_Label.setText("Search Issues in " + newProject);
 	}
 
@@ -108,9 +115,12 @@ public class SearchBar {
 		newIssue_Button.setPrefSize(width, height);
 	}
 
-	// Sets a new font and size for the text and new color for the New Issue Button
-	public void setNewIssueButtonStyle(int textSize, String textFont, String color) {
-		newIssue_Button.setStyle("-fx-font: " + textSize + " " + textFont + "; -fx-base: " + color);
+	// Sets a new font and size for the text and new color for the New Issue
+	// Button
+	public void setNewIssueButtonStyle(int textSize, String textFont,
+			String color) {
+		newIssue_Button.setStyle("-fx-font: " + textSize + " " + textFont
+				+ "; -fx-base: " + color);
 	}
 
 	// Returns a Node representation of the SearchBar object

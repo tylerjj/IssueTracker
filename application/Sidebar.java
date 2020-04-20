@@ -1,7 +1,6 @@
 /**
- * Filename:   Sidebar.java
- * Project:    IssueTracker
- * Authors:    Martin Diges	mdiges@wisc.edu
+ * Filename: Sidebar.java Project: IssueTracker Authors: Martin Diges
+ * mdiges@wisc.edu
  * 
  * Represents the sidebar as shown in the IssueTracker specifications
  */
@@ -30,8 +29,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 /*
- * The Sidebar class is a representation of the sidebar which will appear in the IssueTracker
- * program and will allow the user to choose which project to look within
+ * The Sidebar class is a representation of the sidebar which will appear in the
+ * IssueTracker program and will allow the user to choose which project to look
+ * within
  * 
  * @author Martin Diges
  */
@@ -76,13 +76,14 @@ public class Sidebar {
 
 		newProject_Button = new Button("New Project");
 		setNewProjectButtonStyle(14, "arial", "#CC88FF");
-		
+
 		projectList = new ListView<String>();
 		setProjectListColor(SIDEBAR_COLOR_DEFAULT);
 
 		setSpacing(10);
 		setPadding(10, 10, 10, 10);
-		sidebar.getChildren().addAll(logoHolder, newProject_Button, projectList);
+		sidebar.getChildren().addAll(logoHolder, newProject_Button,
+				projectList);
 	}
 
 	// Returns a Node representation of the Sidebar object
@@ -92,7 +93,8 @@ public class Sidebar {
 
 	// Changes the project names that are displayed on the project list
 	public void setProjectNames(List<String> projectNames) {
-		observableProjectNames = FXCollections.observableArrayList(projectNames);
+		observableProjectNames = FXCollections
+				.observableArrayList(projectNames);
 		projectList.setItems(observableProjectNames);
 	}
 
@@ -109,20 +111,24 @@ public class Sidebar {
 	// Sets the background color for the sidebar. Color formatted in hex, e.g.
 	// "#0088ff"
 	public void setSidebarColor(String color) {
-		sidebar.setBackground(new Background(new BackgroundFill(Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
+		sidebar.setBackground(new Background(new BackgroundFill(
+				Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
 	}
 
-	// Sets the background color for the sidebar's project list. Color formatted in
+	// Sets the background color for the sidebar's project list. Color formatted
+	// in
 	// hex, e.g. "#0088ff"
 	public void setProjectListColor(String color) {
-		projectList
-				.setBackground(new Background(new BackgroundFill(Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
+		projectList.setBackground(new Background(new BackgroundFill(
+				Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
 	}
 
-	// Sets the background color for the logo holder. Color formatted in hex, e.g.
+	// Sets the background color for the logo holder. Color formatted in hex,
+	// e.g.
 	// "#0088ff"
 	public void setLogoHolderColor(String color) {
-		logoHolder.setBackground(new Background(new BackgroundFill(Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
+		logoHolder.setBackground(new Background(new BackgroundFill(
+				Color.web(color), CornerRadii.EMPTY, Insets.EMPTY)));
 	}
 
 	// Sets a new logo image with a specified height and width
@@ -134,8 +140,10 @@ public class Sidebar {
 	}
 
 	// Sets logo test and formats it as specified by the user
-	public void setLogoText(String newTitle, int textSize, String textFont, String color) {
-		logoTitle_Label.setStyle("-fx-font: " + textSize + " " + textFont + "; -fx-base: " + color);
+	public void setLogoText(String newTitle, int textSize, String textFont,
+			String color) {
+		logoTitle_Label.setStyle("-fx-font: " + textSize + " " + textFont
+				+ "; -fx-base: " + color);
 		logoTitle_Label.setText(newTitle);
 	}
 
@@ -144,9 +152,12 @@ public class Sidebar {
 		newProject_Button.setPrefSize(width, height);
 	}
 
-	// Sets a new font and size for the text and new color for the New Project Button
-	public void setNewProjectButtonStyle(int textSize, String textFont, String color) {
-		newProject_Button.setStyle("-fx-font: " + textSize + " " + textFont + "; -fx-base: " + color);
+	// Sets a new font and size for the text and new color for the New Project
+	// Button
+	public void setNewProjectButtonStyle(int textSize, String textFont,
+			String color) {
+		newProject_Button.setStyle("-fx-font: " + textSize + " " + textFont
+				+ "; -fx-base: " + color);
 	}
 
 	// Changes the vertical spacing between UI elements in the sidebar
