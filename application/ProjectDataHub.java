@@ -26,6 +26,8 @@
  */
 package application;
 
+import java.util.Date;
+
 import javafx.collections.*;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -49,11 +51,12 @@ public class ProjectDataHub extends BorderPane {
 	String description;
 	String title;
 	boolean state;
+	Date deadline;
 	
 	//	ProjectTitle	{Description}	Edit		 
 	//	Open/Closed		{Description}	Remove
 	
-	VBox titleAndStateBox;
+	VBox titleStateDeadlineBox;
 	VBox descriptionBox;
 	//ScrollPane descriptionPane;
 	TitledPane descriptionPane;
@@ -61,13 +64,14 @@ public class ProjectDataHub extends BorderPane {
 	
 	Label titleLabel;
 	Label stateLabel;
+	Label deadlineLabel;
 	
 	Button editButton;
 	Button removeButton;
 	
 	TextArea descriptionField;
 	
-	public ProjectDataHub(String title, String description, boolean state) {
+	public ProjectDataHub(String title, String description, boolean state, Date deadline) {
 		this.title = title;
 		this.description = description;
 		this.state = state;
@@ -84,8 +88,10 @@ public class ProjectDataHub extends BorderPane {
 		}
 		stateLabel.setPadding(new Insets(10,10,10,0));
 		
+		deadlineLabel = new Label(deadline.toString());
+		deadlineLabel.setPadding(new Insets(20, 10, 10, 0));
 		
-		titleAndStateBox = new VBox(titleLabel,stateLabel);
+		titleStateDeadlineBox = new VBox(titleLabel,stateLabel,deadlineLabel);
 		
 		
 		descriptionField = new TextArea(description);		
@@ -108,7 +114,7 @@ public class ProjectDataHub extends BorderPane {
 		
 		editAndRemoveBox = new VBox(editButton, removeButton);
 		
-		this.setLeft(titleAndStateBox);
+		this.setLeft(titleStateDeadlineBox);
 		this.setRight(editAndRemoveBox);
 		this.setCenter(descriptionBox);
 		this.setPadding(new Insets(10,10,20,0));
@@ -160,14 +166,14 @@ public class ProjectDataHub extends BorderPane {
 	 * @return the titleAndStateBox
 	 */
 	public VBox getTitleAndStateBox() {
-		return titleAndStateBox;
+		return titleStateDeadlineBox;
 	}
 
 	/**
 	 * @param titleAndStateBox the titleAndStateBox to set
 	 */
 	public void setTitleAndStateBox(VBox titleAndStateBox) {
-		this.titleAndStateBox = titleAndStateBox;
+		this.titleStateDeadlineBox = titleAndStateBox;
 	}
 
 	/**

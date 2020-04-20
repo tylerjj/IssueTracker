@@ -59,8 +59,8 @@ public class Main extends Application {
 		String projectTitle = new String("Mockup Project");
 		String projectDescription = new String("This is a mockup project description. \nI wonder what the textarea will do if I just keep going and going like the energizer bunny.");
 		Boolean projectOpen = true;
-		
-		ProjectDataHub projectDataHub = new ProjectDataHub(projectTitle, projectDescription, projectOpen);
+		Date projectDeadline = new Date();
+		ProjectDataHub projectDataHub = new ProjectDataHub(projectTitle, projectDescription, projectOpen, projectDeadline);
 		
 		vbox.getChildren().add(projectDataHub);
 		
