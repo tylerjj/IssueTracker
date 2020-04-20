@@ -55,6 +55,15 @@ public class Main extends Application {
 		
 		SearchBar searchbar = new SearchBar();
 		VBox vbox = new VBox();
+		
+		String projectTitle = new String("Mockup Project");
+		String projectDescription = new String("This is a mockup project description. \nI wonder what the textarea will do if I just keep going and going like the energizer bunny.");
+		Boolean projectOpen = true;
+		
+		ProjectDataHub projectDataHub = new ProjectDataHub(projectTitle, projectDescription, projectOpen);
+		
+		vbox.getChildren().add(projectDataHub);
+		
 		vbox.getChildren().add(searchbar.toNode());
 		
 		
@@ -64,13 +73,13 @@ public class Main extends Application {
 		String deadline = String.format("%d/%d/%d",calndr.get(Calendar.MONTH), calndr.get(Calendar.DAY_OF_MONTH),calndr.get(Calendar.YEAR));
 		Date currentDate = new Date();
 		
-		IssueTable.Issue i1 = new IssueTable.Issue(Color.RED, "This is a mockup description. I'm going to make it extra long.",deadline, -1,"MOCKUP-ID", "Tyler Johnston", currentDate.toString());
+		IssueTable.Issue i1 = new IssueTable.Issue(Color.RED, "This is a mockup issue description. I'm going to make it extra long.",deadline, -1,"MOCKUP-ID", "Tyler Johnston", currentDate.toString());
 		IssueTable.Issue i2 = new IssueTable.Issue(Color.BLUE, "Mockup Description 2",deadline,0, "MID2", "JohnstonTyler", currentDate.toGMTString());
 		IssueTable.Issue i3 = new IssueTable.Issue(Color.GREEN, "In-Between",deadline,1, "MID3", "K", currentDate.toLocaleString());
 		
 		//Scene scene = new Scene(new Group(), 650,400);	
 		
-		IssueTable tableHolder = new IssueTable(750,400,new ArrayList<Issue>());
+		IssueTable tableHolder = new IssueTable(700, 400, new ArrayList<Issue>());
 		
 		//((Group)scene.getRoot()).getChildren().add(tableHolder);
 		
@@ -83,6 +92,8 @@ public class Main extends Application {
 		
 		vbox.getChildren().add(tableHolder);
 		
+		projectDataHub.setPrefWidth(tableHolder.getTable().getPrefWidth());
+		projectDataHub.setPrefHeight(tableHolder.getTable().getPrefHeight());
 		root.setRight(vbox);
 		
 		Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
