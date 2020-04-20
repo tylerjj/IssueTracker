@@ -2,11 +2,15 @@ package application;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import application.IssueTable.Issue;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 
 import javafx.scene.canvas.Canvas;
@@ -48,14 +52,51 @@ public class Main extends Application {
 		EditProjectBox projectBox = new EditProjectBox();
 		
 		
+		BorderPane root = new BorderPane();
 		
+		SearchBar searchbar = new SearchBar();
+		VBox vbox = new VBox();
+		vbox.getChildren().add(searchbar.toNode());
+		
+		//root.setTop(searchbar.toNode());
+		
+		
+		Calendar calndr = Calendar.getInstance();
+		calndr.set(2020,4,20,0,0,0);
+		//https://www.geeksforgeeks.org/java-string-format-examples/
+		String deadline = String.format("%d/%d/%d",calndr.get(Calendar.MONTH), calndr.get(Calendar.DAY_OF_MONTH),calndr.get(Calendar.YEAR));
+		Date currentDate = new Date();
+		
+		IssueTable.Issue i1 = new IssueTable.Issue(Color.RED, "This is a mockup description. I'm going to make it extra long.",deadline, -1,"MOCKUP-ID", "Tyler Johnston", currentDate.toString());
+		IssueTable.Issue i2 = new IssueTable.Issue(Color.BLUE, "Mockup Description 2",deadline,0, "MID2", "JohnstonTyler", currentDate.toGMTString());
+		IssueTable.Issue i3 = new IssueTable.Issue(Color.GREEN, "In-Between",deadline,1, "MID3", "K", currentDate.toLocaleString());
+		
+		//Scene scene = new Scene(new Group(), 650,400);	
+		
+		IssueTable tableHolder = new IssueTable(750,400,new ArrayList<Issue>());
+		
+		//((Group)scene.getRoot()).getChildren().add(tableHolder);
+		
+		//tableHolder.prefWidthProperty().bind(root.widthProperty());
+		//tableHolder.prefHeightProperty().bind(root.heightProperty());
+		
+		tableHolder.putIssueToRow(i1);
+		tableHolder.putIssueToRow(i2);
+		tableHolder.putIssueToRow(i3);
+		
+		
+		//root.setRight(tableHolder);
+		
+		vbox.getChildren().add(tableHolder);
+		
+		root.setRight(vbox);
 		// Add the vertical box to the center of the root pane
 		
-		//Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+		Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		// Add the stuff and set the primary stage
 		primaryStage.setTitle(APP_TITLE);
-		//primaryStage.setScene(mainScene);
+		primaryStage.setScene(mainScene);
 		primaryStage.show();
 	}
 
