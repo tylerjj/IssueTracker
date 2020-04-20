@@ -1,12 +1,16 @@
 package application;
 
-
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import application.IssueTable.Issue;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 
 import javafx.scene.canvas.Canvas;
@@ -35,7 +39,7 @@ public class Main extends Application {
 	// NOTE: this.getParameters().getRaw() will get these also
 	private List<String> args;
 
-	private static final int WINDOW_WIDTH =1000;
+	private static final int WINDOW_WIDTH = 1000;
 	private static final int WINDOW_HEIGHT = 350;
 	private static final String APP_TITLE = "IssueTracker";
 
@@ -43,19 +47,77 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// save args example
 		args = this.getParameters().getRaw();
-		
+
 		EditIssueBox issueBox = new EditIssueBox(0);
 		EditProjectBox projectBox = new EditProjectBox();
-		
-		
-		
-		// Add the vertical box to the center of the root pane
-		
-		//Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+		BorderPane root = new BorderPane();
+
+		SearchBar searchbar = new SearchBar();
+		searchbar.setSpacing(10);
+		searchbar.setPrefSize(1200, 50);
+		searchbar.setPadding(30, 15, 30, 15);
+		searchbar.setNewIssueButtonStyle(14, "arial", "#CC88FF");
+
+		VBox vbox = new VBox();
+
+		String projectTitle = new String("Mockup Project");
+		String projectDescription = new String(
+				"This is a mockup project description. \nI wonder what the textarea will do if I just keep going and going like the energizer bunny.");
+		Boolean projectOpen = true;
+		Date projectDeadline = new Date();
+		ProjectDataHub projectDataHub = new ProjectDataHub(projectTitle,
+				projectDescription, projectOpen, projectDeadline);
+
+		vbox.getChildren().add(projectDataHub);
+
+		vbox.getChildren().add(searchbar.toNode());
+
+		Calendar calndr = Calendar.getInstance();
+		calndr.set(2020, 4, 20, 0, 0, 0);
+		// https://www.geeksforgeeks.org/java-string-format-examples/
+		String deadline = String.format("%d/%d/%d", calndr.get(Calendar.MONTH),
+				calndr.get(Calendar.DAY_OF_MONTH), calndr.get(Calendar.YEAR));
+		Date currentDate = new Date();
+
+		IssueTable.Issue i1 = new IssueTable.Issue(Color.RED,
+				"This is a mockup issue description. I'm going to make it extra long.",
+				deadline, -1, "MOCKUP-ID", "Tyler Johnston",
+				currentDate.toString());
+		IssueTable.Issue i2 = new IssueTable.Issue(Color.BLUE,
+				"Mockup Description 2", deadline, 0, "MID2", "JohnstonTyler",
+				currentDate.toGMTString());
+		IssueTable.Issue i3 = new IssueTable.Issue(Color.GREEN, "In-Between",
+				deadline, 1, "MID3", "K", currentDate.toLocaleString());
+
+		// Scene scene = new Scene(new Group(), 650,400);
+
+		IssueTable tableHolder = new IssueTable(vbox.getPrefWidth(),
+				vbox.getPrefHeight(), new ArrayList<Issue>());
+
+		// ((Group)scene.getRoot()).getChildren().add(tableHolder);
+
+		// tableHolder.prefWidthProperty().bind(root.widthProperty());
+		// tableHolder.prefHeightProperty().bind(root.heightProperty());
+
+		tableHolder.putIssueToRow(i1);
+		tableHolder.putIssueToRow(i2);
+		tableHolder.putIssueToRow(i3);
+
+		vbox.getChildren().add(tableHolder.getTable());
+
+		projectDataHub.setPrefWidth(tableHolder.getTable().getPrefWidth());
+		projectDataHub.setPrefHeight(tableHolder.getTable().getPrefHeight());
+		vbox.setPadding(new Insets(0, 20, 0, 20));
+		root.setCenter(vbox);
+
+		Sidebar sidebar = new Sidebar();
+		root.setLeft(sidebar.toNode());
+		Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		// Add the stuff and set the primary stage
 		primaryStage.setTitle(APP_TITLE);
-		//primaryStage.setScene(mainScene);
+		primaryStage.setScene(mainScene);
 		primaryStage.show();
 	}
 
