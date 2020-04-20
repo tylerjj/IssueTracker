@@ -2,21 +2,14 @@
  * 
  * ProjectDataHub.java created by tyler on Windows 10 PC in IssueTracker
  * 
- * Author: 	 Tyler Johnston (tjohnston@cs.wisc.edu)
- * Date: 	 @date
+ * Author: Tyler Johnston (tjohnston@cs.wisc.edu) Date: @date
  * 
- * Course: 	 CS400
- * Semester: Spring 2020
- * Lecture:  002
+ * Course: CS400 Semester: Spring 2020 Lecture: 002
  * 
- * IDE: Eclipse IDE for Java Developers
- * Version:  2019-12 (4.14.0)
- * Build id: 20191212-1212
+ * IDE: Eclipse IDE for Java Developers Version: 2019-12 (4.14.0) Build id:
+ * 20191212-1212
  * 
- * Device: 	 tyler-PC
- * OS: 	 	 Windows 10 Pro
- * Version:  1809
- * OS Build: 17763.914
+ * Device: tyler-PC OS: Windows 10 Pro Version: 1809 OS Build: 17763.914
  * 
  * List Collaborators: Name, email@wisc.edu, lecture number
  * 
@@ -43,6 +36,7 @@ import javafx.scene.text.Font;
 
 /**
  * ProjectDataHub - TODO Describe purpose of this user defined type
+ * 
  * @author tyler johnston (2020)
  *
  */
@@ -52,72 +46,71 @@ public class ProjectDataHub extends BorderPane {
 	String title;
 	boolean state;
 	Date deadline;
-	
-	//	ProjectTitle	{Description}	Edit		 
-	//	Open/Closed		{Description}	Remove
-	
+
+	// ProjectTitle {Description} Edit
+	// Open/Closed {Description} Remove
+
 	VBox titleStateDeadlineBox;
 	VBox descriptionBox;
-	//ScrollPane descriptionPane;
+	// ScrollPane descriptionPane;
 	TitledPane descriptionPane;
 	VBox editAndRemoveBox;
-	
+
 	Label titleLabel;
 	Label stateLabel;
 	Label deadlineLabel;
-	
+
 	Button editButton;
 	Button removeButton;
-	
+
 	TextArea descriptionField;
-	
-	public ProjectDataHub(String title, String description, boolean state, Date deadline) {
+
+	public ProjectDataHub(String title, String description, boolean state,
+			Date deadline) {
 		this.title = title;
 		this.description = description;
 		this.state = state;
-		
+
 		titleLabel = new Label(title);
 		titleLabel.setFont(new Font("Arial", 25));
-		titleLabel.setPadding(new Insets(10,10,10,0));
-	
-		
+		titleLabel.setPadding(new Insets(10, 10, 10, 0));
+
 		if (state == true) {
 			stateLabel = new Label("State: Open");
 		} else {
 			stateLabel = new Label("State: Closed");
 		}
-		stateLabel.setPadding(new Insets(10,10,10,0));
-		
+		stateLabel.setPadding(new Insets(10, 10, 10, 0));
+
 		deadlineLabel = new Label(deadline.toString());
 		deadlineLabel.setPadding(new Insets(20, 10, 10, 0));
-		
-		titleStateDeadlineBox = new VBox(titleLabel,stateLabel,deadlineLabel);
-		
-		
-		descriptionField = new TextArea(description);		
+
+		titleStateDeadlineBox = new VBox(titleLabel, stateLabel, deadlineLabel);
+
+		descriptionField = new TextArea(description);
 		descriptionField.editableProperty().set(false);
 		descriptionField.setEditable(false);
-		
-		//descriptionPane = new ScrollPane(descriptionField);
-		//descriptionPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		//descriptionPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		
+
+		// descriptionPane = new ScrollPane(descriptionField);
+		// descriptionPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		// descriptionPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+
 		descriptionPane = new TitledPane("Description", descriptionField);
 		descriptionBox = new VBox(descriptionPane);
-		
+
 		descriptionField.setPrefHeight(descriptionPane.getPrefHeight());
 		descriptionField.setPrefWidth(descriptionPane.getPrefWidth());
 		descriptionField.setWrapText(true);
-		
+
 		editButton = new Button("Edit Project");
 		removeButton = new Button("Remove Project");
-		
+
 		editAndRemoveBox = new VBox(editButton, removeButton);
-		
+
 		this.setLeft(titleStateDeadlineBox);
 		this.setRight(editAndRemoveBox);
 		this.setCenter(descriptionBox);
-		this.setPadding(new Insets(10,10,20,0));
+		this.setPadding(new Insets(10, 10, 20, 0));
 	}
 
 	/**

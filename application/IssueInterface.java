@@ -1,6 +1,5 @@
 /**
- * Filename: IssueInterface
- * Project: IssueTracker
+ * Filename: IssueInterface Project: IssueTracker
  */
 
 package application;
