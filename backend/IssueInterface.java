@@ -2,7 +2,7 @@
  * Filename: IssueInterface Project: IssueTracker
  */
 
-package application;
+package backend;
 
 import java.util.ArrayList;
 import java.util.Date;
