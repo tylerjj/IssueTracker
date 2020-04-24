@@ -15,14 +15,6 @@ import java.util.Date;
 public interface IssueInterface {
 
 	/**
-	 * Create a new Issue object with a name and description.
-	 * 
-	 * @param name        name of the Issue
-	 * @param description description of the Issue
-	 */
-	public void Issue(String name, String description);
-
-	/**
 	 * Get the name
 	 * 
 	 * @return name
@@ -69,14 +61,14 @@ public interface IssueInterface {
 	 * 
 	 * @return status
 	 */
-	public Enum getStatus();
+	public EnumInterface getStatus();
 
 	/**
 	 * Set the status
 	 * 
 	 * @param status
 	 */
-	public void setStatus(Enum status);
+	public void setStatus(EnumInterface status);
 
 	/**
 	 * Get the assignees
@@ -85,6 +77,15 @@ public interface IssueInterface {
 	 */
 	public ArrayList<String> getAssignees();
 
+	
+	/**
+	 * Set the assignees
+	 * 
+	 * @param assignees
+	 */
+	public void setAssignees(ArrayList<String> assignees);
+	
+	
 	/**
 	 * Add an assignee
 	 * 
@@ -104,14 +105,14 @@ public interface IssueInterface {
 	 * 
 	 * @return priority
 	 */
-	public int getPriority();
+	public EnumInterface getPriority();
 
 	/**
 	 * Set the priority
 	 * 
 	 * @param priority
 	 */
-	public void setPriority(int priority);
+	public void setPriority(EnumInterface priority);
 
 	/**
 	 * Get the deadline
@@ -142,18 +143,18 @@ public interface IssueInterface {
 	public void setDateCreated(Date dateCreated);
 
 	/**
-	 * Get the date last accessed
+	 * Get the date last updated
 	 *
 	 * @return dateLastAccessed
 	 */
-	public Date getDateLastAccessed();
+	public Date getDateLastUpdated();
 
 	/**
-	 * Set the date last accessed
+	 * Set the date last updated
 	 *
-	 * @param dateLastAccessed
+	 * @param dateLastUpdated
 	 */
-	public void setDateLastAccessed(Date dateLastAccessed);
+	public void setDateLastUpdated(Date dateLastUpdated);
 
 	/**
 	 * Get the date closed
