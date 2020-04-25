@@ -27,14 +27,14 @@ import javafx.scene.paint.Color;
  */
 public class SearchBar {
 
-	private HBox searchBar;
-	private Label currentProject_Label;
-	private Label searchBy_Label;
-	private TextField searchBar_TextField;
-	private ChoiceBox<String> searchBy_ChoiceBox;
-	private Button newIssue_Button;
-	private Button editIssue_Button;
-	private Button removeIssue_Button;
+	HBox searchBar;
+	Label currentProject_Label;
+	Label searchBy_Label;
+	TextField searchBar_TextField;
+	ChoiceBox<String> searchBy_ChoiceBox;
+	Button newIssue_Button;
+	Button editIssue_Button;
+	Button removeIssue_Button;
 
 	// Creates a new, very basic SearchBar object
 	public SearchBar() {

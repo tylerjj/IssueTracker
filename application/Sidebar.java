@@ -37,13 +37,13 @@ import javafx.scene.text.TextAlignment;
  */
 public class Sidebar {
 
-	private VBox sidebar;
-	private HBox logoHolder;
-	private ImageView logoViewer;
-	private Label logoTitle_Label;
-	private ListView<String> projectList;
-	private ObservableList<String> observableProjectNames;
-	private Button newProject_Button;
+	VBox sidebar;
+	HBox logoHolder;
+	ImageView logoViewer;
+	Label logoTitle_Label;
+	ListView<String> projectList;
+	ObservableList<String> observableProjectNames;
+	Button newProject_Button;
 	final String SIDEBAR_COLOR_DEFAULT = "#EEAAFF";
 	final String LOGOHOLDER_COLOR_DEFAULT = "#CC88FF";
 	final int SIDEBAR_DEFAULT_WIDTH = 300;
