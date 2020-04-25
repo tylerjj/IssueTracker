@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import application.IssueTable.Issue;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -79,35 +78,38 @@ public class Main extends Application {
 		String deadline = String.format("%d/%d/%d", calndr.get(Calendar.MONTH),
 				calndr.get(Calendar.DAY_OF_MONTH), calndr.get(Calendar.YEAR));
 		Date currentDate = new Date();
+    
+		ArrayList<String> assignees1 = new ArrayList<String>();
+		assignees1.add("Tyler Johnston");
+		assignees1.add("Mingrui Leng");
+		Issue i1 = new Issue(Issue.Priority.MEDIUM, "Name of Issue1", "This is a mockup issue description.  I'm going to make it extra long.", new Date(), Issue.Status.TODO, "i1", assignees1, new Date(), new Date(), null);
 
-		IssueTable.Issue i1 = new IssueTable.Issue(Color.RED,
-				"This is a mockup issue description. I'm going to make it extra long.",
-				deadline, -1, "MOCKUP-ID", "Tyler Johnston",
-				currentDate.toString());
-		IssueTable.Issue i2 = new IssueTable.Issue(Color.BLUE,
-				"Mockup Description 2", deadline, 0, "MID2", "JohnstonTyler",
-				currentDate.toGMTString());
-		IssueTable.Issue i3 = new IssueTable.Issue(Color.GREEN, "In-Between",
-				deadline, 1, "MID3", "K", currentDate.toLocaleString());
-
-		// Scene scene = new Scene(new Group(), 650,400);
-
-		IssueTable tableHolder = new IssueTable(vbox.getPrefWidth(),
-				vbox.getPrefHeight(), new ArrayList<Issue>());
-
+		ArrayList<String> assignees2 = new ArrayList<String>();
+		assignees2.add("Martin Diges");
+		Issue i2 = new Issue(Issue.Priority.HIGH, "Name of Issue2", "Mockup Description 2", new Date(deadline),Issue.Status.IN_PROGRESS, "i2", assignees2, new Date(), new Date(), null);
+		
+		ArrayList<String> assignees3 = new ArrayList<String>();
+		assignees3.add("Tyler Johnston");
+		assignees3.add("Alec Lowry");
+		assignees3.add("James Charapata");
+		assignees3.add("Mingrui Leng");
+		assignees3.add("Martin Diges");
+		Issue i3 = new Issue(Issue.Priority.LOW, "Name of Issue3", "Mockup Desc 3", new Date(deadline), Issue.Status.COMPLETE, "i3", assignees3, new Date(), new Date(), new Date());
+		
+		IssueTable tableHolder = new IssueTable(vbox.getPrefWidth(), vbox.getPrefWidth(), new ArrayList<Issue>());
+		
 		// ((Group)scene.getRoot()).getChildren().add(tableHolder);
 
 		// tableHolder.prefWidthProperty().bind(root.widthProperty());
-		// tableHolder.prefHeightProperty().bind(root.heightProperty());
-
-		tableHolder.putIssueToRow(i1);
-		tableHolder.putIssueToRow(i2);
+		
+		tableHolder.putIssueToRow(i1); tableHolder.putIssueToRow(i2);
 		tableHolder.putIssueToRow(i3);
-
+		  
 		vbox.getChildren().add(tableHolder.getTable());
-
+		  
 		projectDataHub.setPrefWidth(tableHolder.getTable().getPrefWidth());
 		projectDataHub.setPrefHeight(tableHolder.getTable().getPrefHeight());
+
 		vbox.setPadding(new Insets(0, 20, 0, 20));
 		root.setCenter(vbox);
 

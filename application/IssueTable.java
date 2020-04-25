@@ -21,6 +21,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -29,6 +30,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -43,52 +45,71 @@ public class IssueTable extends TableView {
 
 	private TableView table;
 
-	enum Status {
-		TODO, IN_PROGRESS, COMPLETE
-	};
+	public static class IssueCell {
 
-	public static class Issue {
-		private Paint priority;
+		Issue.Priority priority;
+		private String name;
 		private String description;
-		private String deadline;
-		Status status;
+		private Date deadline;
+		Issue.Status status;
 		private String ID;
-		private String assignee;
-		private String lastUpdated;
-
-		public Issue(Paint priority, String description, String deadline,
-				int status, String ID, String assignee, String lastUpdated) {
-			this.priority = priority;
-			this.description = description;
-			this.deadline = deadline;
-			this.ID = ID;
-			if (status < 0) {
-				this.status = Status.TODO;
-			} else if (status > 0) {
-				this.status = Status.COMPLETE;
-			} else {
-				this.status = Status.IN_PROGRESS;
-			}
-			this.assignee = assignee;
-			this.lastUpdated = lastUpdated;
+		private ArrayList<String> assignees;
+		private Date dateLastUpdated;
+		private Date dateCreated;
+		private Date dateClosed;
+		
+		public IssueCell(Issue issue) {
+			
+			
+			priority = issue.getPriority();
+			name = issue.getName();
+			description = issue.getDescription();
+			deadline = issue.getDeadline();
+			status = issue.getStatus();
+			ID = issue.getID();
+			assignees = issue.getAssignees();
+			dateLastUpdated = issue.getDateLastUpdated();
+			dateCreated = issue.getDateCreated();
+			dateClosed = issue.getDateClosed();
+			
 		}
 
 		public Rectangle getPriority() {
+			
+			Paint priorityColor;
+			
+			// TODO: I think this could probably be cleaned up with a switch.
+			if (priority.toString()=="LOW") {
+				priorityColor = Color.GREEN;
+			} else if (priority.toString()=="MEDIUM") {
+				priorityColor = Color.YELLOW;
+			} else if (priority.toString()=="HIGH") {
+				priorityColor = Color.RED;
+			} else {
+				priorityColor = Color.BLACK;
+			} 
+			
 			// https://www.tutorialspoint.com/javafx/2dshapes_rectangle.htm
-			Rectangle priorityColor = new Rectangle();
-			priorityColor.setWidth(10);
-			priorityColor.setHeight(10);
-			priorityColor.setFill(priority);
-			return priorityColor;
+			Rectangle priorityColorBox = new Rectangle();
+			priorityColorBox.setWidth(10);
+			priorityColorBox.setHeight(10);
+			priorityColorBox.setFill(priorityColor);
+			return priorityColorBox;
 		}
 
+		public Label getName() {
+			Label nameLabel = new Label(name);
+			return nameLabel;
+		}
+		
 		public Label getDescription() {
 			Label descriptionLabel = new Label(description);
 			return descriptionLabel;
 		}
 
 		public Label getDeadline() {
-			Label deadlineLabel = new Label(deadline);
+			String deadlineString = deadline.toString();
+			Label deadlineLabel = new Label(deadlineString);
 			return deadlineLabel;
 		}
 
@@ -102,14 +123,39 @@ public class IssueTable extends TableView {
 			return idLabel;
 		}
 
-		public Label getAssignee() {
-			Label assigneeLabel = new Label(assignee);
-			return assigneeLabel;
+		public Label getAssignees() {
+			String assigneesString = new String();
+			for (int i = 0; i < assignees.size();i++) {
+				assigneesString = assigneesString + assignees.get(i);
+				if (i+1 < assignees.size()) {
+					assigneesString = assigneesString + "\n";
+				}
+			}
+			Label assigneesLabel = new Label(assigneesString);
+			return assigneesLabel;
 		}
 
-		public Label getLastUpdated() {
-			Label lastUpdatedLabel = new Label(lastUpdated);
-			return lastUpdatedLabel;
+		public Label getDateLastUpdated() {
+			String dateLastUpdatedString = dateLastUpdated.toString();
+			Label dateLastUpdatedLabel = new Label(dateLastUpdatedString);
+			return dateLastUpdatedLabel;
+		}
+		
+		public Label getDateCreated() {
+			String dateCreatedString = dateCreated.toString();
+			Label dateCreatedLabel = new Label(dateCreatedString);
+			return dateCreatedLabel;
+		}
+		
+		public Label getDateClosed() {
+			Label dateClosedLabel;
+			if (dateClosed == null) {
+				dateClosedLabel = new Label("N/A");
+			} else {
+				String dateClosedString = new String(dateClosed.toString());
+				dateClosedLabel = new Label(dateClosedString);
+			}
+			return dateClosedLabel;
 		}
 	}
 
@@ -124,54 +170,83 @@ public class IssueTable extends TableView {
 		// this.setPrefHeight(prefHeight);
 		// this.setPrefWidth(prefWidth);
 
-		TableColumn<Rectangle, Issue> priorityColumn = new TableColumn<>(
+		ArrayList<IssueCell> issueCells = new ArrayList<IssueCell>();
+		for (Issue issue : issues ) {
+			issueCells.add(new IssueCell(issue));
+		}
+		
+		TableColumn<Rectangle, IssueCell> priorityColumn = new TableColumn<>(
 				"Priority");
 		priorityColumn
 				.setCellValueFactory(new PropertyValueFactory<>("priority"));
 
-		TableColumn<Label, Issue> descriptionColumn = new TableColumn<>(
+		TableColumn<Label, IssueCell> nameColumn = new TableColumn<>(
+				"Name");
+		nameColumn
+				.setCellValueFactory(new PropertyValueFactory<>("name"));
+		
+		TableColumn<Label, IssueCell> descriptionColumn = new TableColumn<>(
 				"Description");
 		descriptionColumn
 				.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-		TableColumn<Label, Issue> deadlineColumn = new TableColumn("Deadline");
+		TableColumn<Label, IssueCell> deadlineColumn = new TableColumn("Deadline");
 		deadlineColumn
 				.setCellValueFactory(new PropertyValueFactory<>("deadline"));
 
-		TableColumn<Label, Issue> statusColumn = new TableColumn("Status");
+		TableColumn<Label, IssueCell> statusColumn = new TableColumn("Status");
 		statusColumn.setCellValueFactory(new PropertyValueFactory<>("Status"));
 
-		TableColumn<Label, Issue> idColumn = new TableColumn("ID");
+		TableColumn<Label, IssueCell> idColumn = new TableColumn("ID");
 		idColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
 
-		TableColumn<Label, Issue> assigneeColumn = new TableColumn("Assignee");
-		assigneeColumn
-				.setCellValueFactory(new PropertyValueFactory<>("assignee"));
+		TableColumn<Label, IssueCell> assigneesColumn = new TableColumn("Assignees");
+		assigneesColumn
+				.setCellValueFactory(new PropertyValueFactory<>("assignees"));
 
-		TableColumn<Label, Issue> lastUpdatedColumn = new TableColumn(
+		TableColumn<Label, IssueCell> dateLastUpdatedColumn = new TableColumn(
 				"Last Updated");
-		lastUpdatedColumn
-				.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
+		dateLastUpdatedColumn
+				.setCellValueFactory(new PropertyValueFactory<>("dateLastUpdated"));
 
-		table.getColumns().addAll(priorityColumn, descriptionColumn,
-				deadlineColumn, statusColumn, idColumn, assigneeColumn,
-				lastUpdatedColumn);
+		TableColumn<Label, IssueCell> dateCreatedColumn = new TableColumn(
+				"Date Created");
+		dateCreatedColumn
+				.setCellValueFactory(new PropertyValueFactory<>("dateCreated"));
+		
+		TableColumn<Label, IssueCell> dateClosedColumn = new TableColumn(
+				"Date Closed");
+		dateClosedColumn
+				.setCellValueFactory(new PropertyValueFactory<>("dateClosed"));
+		
+		
+		table.getColumns().addAll(priorityColumn, nameColumn, descriptionColumn,
+				deadlineColumn, statusColumn, idColumn, assigneesColumn,
+				dateLastUpdatedColumn, dateCreatedColumn, dateClosedColumn);
 
-		fillTable(issues);
+		fillTable(issueCells);
 		// https://stackoverflow.com/questions/26713162/javafx-disable-horizontal-scrollbar-of-tableview
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 	}
 
-	public void putIssueToRow(Issue issue) {
+	public void putIssueToRow(IssueCell issue) {
 		table.getItems().add(issue);
 	}
 
-	public void removeIssueFromRow(Issue issue) {
+	public void putIssueToRow(Issue issue) {
+		table.getItems().add(new IssueCell(issue));
+	}
+	
+	public void removeIssueFromRow(IssueCell issue) {
 		table.getItems().remove(issue);
 	}
 
-	private void fillTable(ArrayList<Issue> issues) {
+	public void removeIssueFromRow(Issue issue) {
+		table.getItems().remove(new IssueCell(issue));
+	}
+	
+	private void fillTable(ArrayList<IssueCell> issues) {
 		for (int i = 0; i < issues.size(); i++) {
 			putIssueToRow(issues.get(i));
 		}
