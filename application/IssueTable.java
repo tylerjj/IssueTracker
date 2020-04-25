@@ -158,7 +158,7 @@ public class IssueTable extends TableView {
 			return dateClosedLabel;
 		}
 	}
-	
+
 	IssueTable(double prefWidth, double prefHeight, ArrayList<Issue> issues) {
 
 		table = new TableView();
