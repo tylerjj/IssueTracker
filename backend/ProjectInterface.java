@@ -57,6 +57,13 @@ public interface ProjectInterface {
    * @return name of this project object
    */
   public String getName();
+  
+  /**
+   * setter for project name
+   *
+   * @return name of this project object
+   */
+  public void setName(String name);
 
   /**
    * Getter for project description
@@ -64,6 +71,13 @@ public interface ProjectInterface {
    * @return description of this project object
    */
   public String getDescription();
+  
+  /**
+   * Setter for project description
+   *
+   * @return description of this project object
+   */
+  public void setDescription(String description);
 
   /**
    * Getter for project deadline Date
