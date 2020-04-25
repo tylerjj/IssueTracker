@@ -36,6 +36,4 @@ public interface EnumInterface {
 
 	public int getValue();
 	
-	public String toString();
-	
 }
