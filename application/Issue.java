@@ -22,15 +22,6 @@ public class Issue implements IssueInterface {
 	        return value;
 	    }
 	    
-	    public String toString() {
-	    	if (value == -1) {
-	    		return Status.TODO.toString();
-	    	} else if (value == 1) {
-	    		return Status.COMPLETE.toString();
-	    	} else {
-	    		return Status.IN_PROGRESS.toString();
-	    	}
-	    }
 	}
 	
 	public enum Priority implements EnumInterface {
@@ -48,15 +39,6 @@ public class Issue implements IssueInterface {
 			return value;
 		}
 		
-		public String toString() {
-			if (value == -1) {
-				return Priority.LOW.toString();
-			} else if (value == 1) {
-				return Priority.HIGH.toString();
-			} else {
-				return Priority.MEDIUM.toString();
-			}
-		}
 	}
 	
 	private Priority priority;
