@@ -3,6 +3,11 @@ package backend;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * IssueTracker, main container for backend objects.
+ * @author jcharapata
+ *
+ */
 public class IssueTracker {
   private HashMap<Integer,Project> projectList;
   static int ID; //will be assigned to each project
@@ -32,7 +37,7 @@ public class IssueTracker {
   /**
    * Return the project object from the project map specified by the ID
    * @param ID - the ID of the project
-   * @return the project with the specified ID
+   * @return the project with the specified li  ID
    */
   public Project getProject(int ID) {
     return projectList.get(ID);
