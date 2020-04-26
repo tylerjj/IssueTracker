@@ -24,7 +24,7 @@
  * 
  * Known Bugs: describe known unresolved bugs here
  */
-package application;
+package backend;
 
 /**
  * StatusEnumInterface - TODO Describe purpose of this user defined type
