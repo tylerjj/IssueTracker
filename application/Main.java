@@ -46,8 +46,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// save args example
 		args = this.getParameters().getRaw();
-
-		EditIssueBox issueBox = new EditIssueBox(0);
 		EditProjectBox projectBox = new EditProjectBox();
 
 		BorderPane root = new BorderPane();

@@ -77,6 +77,7 @@ public class Sidebar {
 		newProject_Button = new Button("New Project");
 		setNewProjectButtonStyle(14, "arial", "#CC88FF");
 
+		
 		projectList = new ListView<String>();
 		setProjectListColor(SIDEBAR_COLOR_DEFAULT);
 

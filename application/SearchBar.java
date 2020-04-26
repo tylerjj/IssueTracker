@@ -63,6 +63,12 @@ public class SearchBar {
 		searchBar.getChildren().addAll(currentProject_Label,
 				searchBar_TextField, searchBy_Label, searchBy_ChoiceBox,
 				newIssue_Button, editIssue_Button, removeIssue_Button);
+		
+		Issue testIssue = new Issue();
+        testIssue.setName("James is a dork");
+        testIssue.setDescription("Big meme");
+        EditIssueBox issueBox  = new EditIssueBox(testIssue);
+        newIssue_Button.setOnAction(newIssue -> issueBox.constructEditBox());
 	}
 
 	// Sets the maximum dimensions for the search bar
