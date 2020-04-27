@@ -47,12 +47,12 @@ public class Main extends Application {
 		// save args example
 		args = this.getParameters().getRaw();
 
-		EditIssueBox issueBox = new EditIssueBox(0);
-		EditProjectBox projectBox = new EditProjectBox();
+		//IssueBox issueBox = new IssueBox(0);
+		//EditProjectBox projectBox = new EditProjectBox();
 
 		BorderPane root = new BorderPane();
 
-		SearchBar searchbar = new SearchBar();
+		IssueOptionBar searchbar = new IssueOptionBar();
 		searchbar.setSpacing(10);
 		searchbar.setPrefSize(1200, 50);
 		searchbar.setPadding(30, 15, 30, 15);
@@ -121,6 +121,16 @@ public class Main extends Application {
 		primaryStage.setTitle(APP_TITLE);
 		primaryStage.setScene(mainScene);
 		primaryStage.show();
+		
+		//Testing for IssueHandler
+		ArrayList<Issue> issues = new ArrayList<Issue>();
+		issues.add(i1); issues.add(i2); issues.add(i3);
+		System.out.println(issues.toString());
+		Stage testStage = new Stage();
+		IssueHandler issueSection = new IssueHandler(issues, testStage);
+		Scene testScene = new Scene(issueSection.container);
+		testStage.setScene(testScene);
+		testStage.show();
 	}
 
 	/**
