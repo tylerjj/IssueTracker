@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+import backend.Issue;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.event.Event;

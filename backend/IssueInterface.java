@@ -6,6 +6,8 @@ package backend;
 
 import java.util.ArrayList;
 import java.util.Date;
+import backend.Issue.Priority;
+import backend.Issue.Status;
 
 /**
  * 
@@ -13,14 +15,6 @@ import java.util.Date;
  *
  */
 public interface IssueInterface {
-
-	/**
-	 * Create a new Issue object with a name and description.
-	 * 
-	 * @param name        name of the Issue
-	 * @param description description of the Issue
-	 */
-	public void Issue(String name, String description);
 
 	/**
 	 * Get the name
@@ -76,7 +70,7 @@ public interface IssueInterface {
 	 * 
 	 * @param status
 	 */
-	public void setStatus(Enum status);
+	public void setStatus(EnumInterface status);
 
 	/**
 	 * Get the assignees
@@ -85,6 +79,11 @@ public interface IssueInterface {
 	 */
 	public ArrayList<String> getAssignees();
 
+	/**
+	 * Set the assignees
+	 */
+	public void setAssignees(ArrayList<String> assignees);
+	
 	/**
 	 * Add an assignee
 	 * 
@@ -104,14 +103,14 @@ public interface IssueInterface {
 	 * 
 	 * @return priority
 	 */
-	public int getPriority();
+	public Priority getPriority();
 
 	/**
 	 * Set the priority
 	 * 
 	 * @param priority
 	 */
-	public void setPriority(int priority);
+	public void setPriority(EnumInterface priority);
 
 	/**
 	 * Get the deadline
@@ -144,16 +143,16 @@ public interface IssueInterface {
 	/**
 	 * Get the date last accessed
 	 *
-	 * @return dateLastAccessed
+	 * @return dateLastUpdated
 	 */
-	public Date getDateLastAccessed();
+	public Date getDateLastUpdated();
 
 	/**
 	 * Set the date last accessed
 	 *
-	 * @param dateLastAccessed
+	 * @param dateLastUpdated
 	 */
-	public void setDateLastAccessed(Date dateLastAccessed);
+	public void setDateLastUpdated(Date dateLastUpdated);
 
 	/**
 	 * Get the date closed

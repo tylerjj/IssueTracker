@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import application.IssueTable.IssueCell;
+import backend.Issue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
