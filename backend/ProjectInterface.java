@@ -56,6 +56,11 @@ public interface ProjectInterface {
 	public String getName();
 
 	/**
+	 * Setter for project name
+	 * 
+	 */
+	public void setName(String name);
+	/**
 	 * Getter for project description
 	 *
 	 * @return description of this project object

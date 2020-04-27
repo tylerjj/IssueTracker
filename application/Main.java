@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import backend.Issue;
+import backend.Project;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -128,7 +129,28 @@ public class Main extends Application {
 		System.out.println(issues.toString());
 		Stage testStage = new Stage();
 		IssueHandler issueSection = new IssueHandler(issues, testStage);
-		Scene testScene = new Scene(issueSection.container);
+		
+		
+		
+		
+		//Testing for the ProjectHandler
+
+		ArrayList<Project> projects = new ArrayList<Project>();
+		ArrayList<Issue> issues2 = new ArrayList<Issue>();
+		issues2.add(i3); issues2.add(i1); issues2.add(i2);
+		Project firstProject = new Project(issues, "First Project", "For the memes", new Date(), new Date(), new Date(), new Date(), true);
+		Project secondProject = new Project(issues2, "Second Project", "For the memes", new Date(), new Date(), new Date(), new Date(), true);
+		
+		
+		projects.add(firstProject);
+		projects.add(secondProject);
+		ProjectHandler projectHandler = new ProjectHandler(projects, testStage, issueSection);
+		
+		BorderPane dashBoard = new BorderPane();
+		dashBoard.setCenter(issueSection.container);
+		dashBoard.setLeft(projectHandler.sidebar.toNode());
+		
+		Scene testScene = new Scene(dashBoard);
 		testStage.setScene(testScene);
 		testStage.show();
 	}

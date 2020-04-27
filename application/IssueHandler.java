@@ -209,4 +209,13 @@ public class IssueHandler {
 	public void setIssues(ArrayList<Issue> issues) {
 		this.issues = issues;
 	}
+	
+	/**
+	 * Resprings the issueTable with the new values
+	 */
+	public void respringIssueTable() {
+	  container.getChildren().remove(issueTable.getTable());
+      constructIssueTable();
+      container.getChildren().add(issueTable.getTable());
+	}
 }
