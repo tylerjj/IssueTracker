@@ -1,48 +1,94 @@
 package backend;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 /**
  * IssueTracker, main container for backend objects.
+ * 
  * @author jcharapata
  *
  */
-public class IssueTracker {
-  private HashMap<Integer,Project> projectList;
-  static int ID; //will be assigned to each project
-  
+public class IssueTracker implements IssueTrackerInterface {
+  private ArrayList<Project> projectList;
+
+
   /**
    * Default Constructor
    */
   public IssueTracker() {
-  projectList = new HashMap<Integer, Project>();
+    projectList = new ArrayList<Project>();
   }
-  
-  
+
+
   /**
    * Creates a new project, adds it to the list of projects
-   * @param name - the new project's name
+   * 
+   * @param name        - the new project's name
    * @param description - the new project's description
    */
-  public void newProject(String name, String description) {
-    projectList.put(ID, new Project());
-    projectList.get(ID).setName(name);
-    projectList.get(ID).setDescription(name);
-    projectList.get(ID).setDateCreated(new Date()); //This will put the current date
-    ID++;
+  public Project newProject() {
+    projectList.add(new Project());
+    return projectList.get(projectList.size() - 1);
   }
-  
-  
+
   /**
-   * Return the project object from the project map specified by the ID
-   * @param ID - the ID of the project
-   * @return the project with the specified li  ID
+   * Returns the projectList for editing and display
    */
-  public Project getProject(int ID) {
-    return projectList.get(ID);
-  } 
-  
-  
-  
+  public ArrayList<Project> getProjectList() {
+    return this.projectList;
+  }
+
+
+  @Override
+  public void newProject(String JSON) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public void editProject(String JSON) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public Project getProject(String name) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public void removeProject(String name) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public void sortProject(String field) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public String serializeJSON() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public void deserializeJSON(String JSON) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+
 }

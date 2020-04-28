@@ -22,9 +22,9 @@ package application;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 import backend.Issue;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -42,17 +42,17 @@ import javafx.stage.Stage;
  * @author tyler johnston (2020)
  *
  */
-public class IssueTable extends TableView {
+public class IssueTable {
 
 	private TableView table;
 
 	public static class IssueCell {
-
-		Issue.Priority priority;
+		private Issue issue;
+		private Issue.Priority priority;
 		private String name;
 		private String description;
 		private Date deadline;
-		Issue.Status status;
+		private Issue.Status status;
 		private String ID;
 		private ArrayList<String> assignees;
 		private Date dateLastUpdated;
@@ -61,7 +61,7 @@ public class IssueTable extends TableView {
 		
 		public IssueCell(Issue issue) {
 			
-			
+			this.issue = issue;
 			priority = issue.getPriority();
 			name = issue.getName();
 			description = issue.getDescription();
@@ -97,7 +97,11 @@ public class IssueTable extends TableView {
 			priorityColorBox.setFill(priorityColor);
 			return priorityColorBox;
 		}
-
+		
+		public Issue getIssue() {
+			return issue;
+		}
+		
 		public Label getName() {
 			Label nameLabel = new Label(name);
 			return nameLabel;
@@ -244,7 +248,13 @@ public class IssueTable extends TableView {
 	}
 
 	public void removeIssueFromRow(Issue issue) {
-		table.getItems().remove(new IssueCell(issue));
+		ObservableList<IssueCell> rows = table.getItems();
+		for (IssueCell row : rows) {
+			if (issue.getID() == row.getIssue().getID()) {;
+				rows.remove(row);
+				return;
+			}
+		}
 	}
 	
 	private void fillTable(ArrayList<IssueCell> issues) {

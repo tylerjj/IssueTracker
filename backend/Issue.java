@@ -7,7 +7,7 @@ public class Issue implements IssueInterface {
 	
 	// Took inspiration from the following code snippet: 
 	// https://stackoverflow.com/questions/17741721/getting-string-value-from-enum-in-java
-	public enum Status implements EnumInterface {
+	public enum Status {
 	    TODO(-1),
 	    IN_PROGRESS(0),
 	    COMPLETE(1);
@@ -24,7 +24,7 @@ public class Issue implements IssueInterface {
 	    
 	}
 	
-	public enum Priority implements EnumInterface {
+	public enum Priority {
 		LOW(-1),
 		MEDIUM(0),
 		HIGH(1);
@@ -122,7 +122,7 @@ public class Issue implements IssueInterface {
 	}
 
 	@Override
-	public void setStatus(EnumInterface status) {
+	public void setStatus(Enum status) {
 		this.status = (Status) status;
 	}
 
@@ -154,7 +154,7 @@ public class Issue implements IssueInterface {
 	}
 
 	@Override
-	public void setPriority(EnumInterface priority) {
+	public void setPriority(Enum priority) {
 		this.priority = (Priority) priority;
 		
 	}
