@@ -89,24 +89,34 @@ public class Project implements ProjectInterface {
 		switch (field) {
 		case "priority":
 			issueList.sort(Comparator.comparing(Issue::getPriority));
+			break;
 		case "name":
 			issueList.sort(Comparator.comparing(Issue::getName));
+			break;
 		case "description":
 			issueList.sort(Comparator.comparing(Issue::getDescription));
+			break;
 		case "deadline":
 			issueList.sort(Comparator.comparing(Issue::getDeadline));
+			break;
 		case "status":
 			issueList.sort(Comparator.comparing(Issue::getStatus));
+			break;
 		case "ID":
 			issueList.sort(Comparator.comparing(Issue::getID));
+			break;
 		case "assignees":
 			// TODO: assignees is not comparable
+			break;
 		case "dateLastUpdated":
 			issueList.sort(Comparator.comparing(Issue::getDateLastUpdated));
+			break;
 		case "dateCreated":
 			issueList.sort(Comparator.comparing(Issue::getDateCreated));
+			break;
 		case "dateClosed":
 			issueList.sort(Comparator.comparing(Issue::getDateClosed));
+			break;
 		}
 
 	}
