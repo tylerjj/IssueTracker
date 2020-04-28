@@ -6,7 +6,6 @@ package application;
 
 import java.util.ArrayList;
 import java.util.Date;
-import backend.EnumInterface;
 
 /**
  * 
@@ -62,14 +61,14 @@ public interface IssueInterface {
 	 * 
 	 * @return status
 	 */
-	public EnumInterface getStatus();
+	public Enum getStatus();
 
 	/**
 	 * Set the status
 	 * 
 	 * @param status
 	 */
-	public void setStatus(EnumInterface status);
+	public void setStatus(Enum status);
 
 	/**
 	 * Get the assignees
@@ -106,14 +105,14 @@ public interface IssueInterface {
 	 * 
 	 * @return priority
 	 */
-	public EnumInterface getPriority();
+	public Enum getPriority();
 
 	/**
 	 * Set the priority
 	 * 
 	 * @param priority
 	 */
-	public void setPriority(EnumInterface priority);
+	public void setPriority(Enum priority);
 
 	/**
 	 * Get the deadline

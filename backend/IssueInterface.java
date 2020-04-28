@@ -70,7 +70,7 @@ public interface IssueInterface {
 	 * 
 	 * @param status
 	 */
-	public void setStatus(EnumInterface status);
+	public void setStatus(Enum status);
 
 	/**
 	 * Get the assignees
@@ -110,7 +110,7 @@ public interface IssueInterface {
 	 * 
 	 * @param priority
 	 */
-	public void setPriority(EnumInterface priority);
+	public void setPriority(Enum priority);
 
 	/**
 	 * Get the deadline
