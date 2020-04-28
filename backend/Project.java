@@ -116,8 +116,11 @@ public class Project implements ProjectInterface {
 		return issueList;
 	}
 	
-    
-
+    @Override
+	public void setIssueList(ArrayList<Issue> issueList) {
+	  this.issueList = issueList;
+	}
+	
 	@Override
 	public String getName() {
 		return name;

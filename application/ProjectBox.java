@@ -28,6 +28,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Project Box class. This is the class which will edit and create new projects 
+ * @author jcharapata
+ *
+ */
 public class ProjectBox {
   private Project project;
   private ComboBox<Project.Status> openStatusBox;
@@ -46,22 +51,13 @@ public class ProjectBox {
   private DatePicker creationDatePicker;
   private DatePicker closeDatePicker;
   private VBox body;
+  private boolean projectSaved;
   private BorderPane frame;
   private Stage editingStage;
   private Scene editingScene;
   private SaveDataEvent saveDataEvent;
 
 
-  //from Tyler's IssueBox Class
-  static class SaveDataEvent extends Event {
-
-    public static final EventType<SaveDataEvent> SAVE_PRESSED = new EventType<>(
-            Event.ANY, "SAVE_PRESSED");
-
-    public SaveDataEvent() {
-        super(SAVE_PRESSED);
-    }
-}
   
   class SaveHandler implements EventHandler<ActionEvent> {
     private Button saveButton;
@@ -104,13 +100,17 @@ public class ProjectBox {
         alert.showAndWait().filter(r -> r == ButtonType.OK);
         return;
       } else {
+        
         project.setName(name);
         project.setDescription(description);
         project.setDeadline(deadline);
         project.setDateCreated(new Date());
         project.setOpenStatus(status);
+        project.setIssueList(new ArrayList<Issue>());
+        projectSaved = true;
       }
-      saveDataEvent = new SaveDataEvent();
+      
+      editingStage.hide();
     }
 
   }
@@ -118,7 +118,7 @@ public class ProjectBox {
   /**
    * Constructor for project box, subject to refactoring. TODO:Make interact with project object.
    */
-  public ProjectBox(Project project) {
+  public ProjectBox(Project project, Sidebar sidebar) {
     this.project = project;
     constructEditBox();
   }
@@ -148,8 +148,9 @@ public class ProjectBox {
       openStatusBox = new ComboBox<Project.Status>(
           FXCollections.observableArrayList(Project.Status.OPEN, Project.Status.CLOSED));
       openStatusBox.setPromptText("Issue Priority");
-
+      
       project = new Project();
+
     } else {
       projectTitle = new Text("Edit Project");
       projectTitle.setFont(Font.font("Calibri", 45));
@@ -177,9 +178,9 @@ public class ProjectBox {
 
 
     cancelButton = new Button("Cancel");
+   
     saveButton = new Button("Save");
-    SaveHandler saveHandler = new SaveHandler(saveButton);
-    saveButton.setOnAction(saveHandler);
+    
     
     buttonField = new HBox();
     buttonField.getChildren().addAll(cancelButton, saveButton);
@@ -201,6 +202,10 @@ public class ProjectBox {
     editingStage.setTitle("New Project");
     editingStage.setScene(editingScene);
     editingStage.show();
+    
+    cancelButton.setOnAction(e->editingStage.hide());
+    SaveHandler saveHandler = new SaveHandler(saveButton);
+    saveButton.setOnAction(saveHandler);
   }
 
   public Project getProject() {
@@ -211,5 +216,11 @@ public class ProjectBox {
   }
   public SaveDataEvent getSaveDataEvent() {
     return saveDataEvent;
+  }
+  public Stage getBoxStage() {
+    return editingStage;
+  }
+  public boolean getProjectSaved() {
+    return projectSaved;
   }
 }

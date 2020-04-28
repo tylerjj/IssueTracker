@@ -40,7 +40,7 @@ public class Sidebar {
   private HBox logoHolder;
   private ImageView logoViewer;
   private Label logoTitle_Label;
-  private ListView<String> projectList;
+  private ListView<String> projectList;  
   private ObservableList<String> observableProjectNames;
   private Button newProject_Button;
   final String SIDEBAR_COLOR_DEFAULT = "#EEAAFF";

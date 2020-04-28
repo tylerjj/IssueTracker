@@ -6,7 +6,7 @@ import backend.Project;
 import javafx.stage.Stage;
 
 /**
- * Will handle project related actions
+ * Handles project related actions such as adding a project, switching issueLists, etc.
  * @author jcharapata
  *
  */
@@ -27,16 +27,22 @@ public class ProjectHandler {
     this.currentStage = currentStage;
     this.issueHandler = issueHandler;
     constructSidebar();
+    sidebar.setProjectNames(projects);
   }
 
+  /**
+   * Caller for the sidebar class, setup the button and list events for it.
+   */
   private void constructSidebar() {
     sidebar = new Sidebar();
-    sidebar.setProjectNames(projects);
     sidebar.getProjectList().setOnMouseClicked(e->changeIssues());
     sidebar.getNewProjectButton().setOnMouseClicked(e->createNewProject());
 
   }
   
+  /**
+   * Refreshes issues in the issueTable upon changing projects
+   */
   private void changeIssues() {
     System.out.println(sidebar.getProjectList().getSelectionModel().getSelectedItem());
     issueHandler.setIssues(searchProject(sidebar.getProjectList().getSelectionModel().getSelectedItem()).getIssueList());
@@ -50,7 +56,7 @@ public class ProjectHandler {
    */
   private Project searchProject(String projectName) {
     for(Project project: projects) {
-      if(project.getName().equals(projectName)) {
+      if(project.getName() != null && project.getName().equals(projectName)) {
         return project;
       }
     }
@@ -62,17 +68,24 @@ public class ProjectHandler {
    */
   private void createNewProject() {
     Project newProject = new Project();
-    ProjectBox newProjectBox = new ProjectBox(null);
+    ProjectBox newProjectBox = new ProjectBox(null, sidebar);
     
-    
-    saveDataAction(newProjectBox, newProjectBox.getSaveDataEvent());
+    newProjectBox.getBoxStage().setOnCloseRequest(e->saveDataAction(newProjectBox));
+    newProjectBox.getBoxStage().setOnHidden(e->saveDataAction(newProjectBox));
     
     
   }
   
-  private void saveDataAction(ProjectBox newProjectBox, ProjectBox.SaveDataEvent e) {
-    projects.add(newProjectBox.getProject());
-    constructSidebar();
+  /**
+   * Saves data upon a saved project from the ProjectBox
+   * @param newProjectBox
+   */
+  private void saveDataAction(ProjectBox newProjectBox) {
+    //Ensures nothing gets changed if Box is canceled or 
+    if(newProjectBox.getProjectSaved()) {
+      projects.add(newProjectBox.getProject());
+      sidebar.setProjectNames(projects);
+    }
   }
   
 }
