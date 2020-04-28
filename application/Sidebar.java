@@ -182,6 +182,13 @@ public class Sidebar {
   }
   
   /**
+   * Getter for new project button
+   */
+  public Button getNewProjectButton() {
+    return newProject_Button;
+  }
+  
+  /**
    * Getter for list view object, used for changing issue views
    */
   public ListView<String> getProjectList() {

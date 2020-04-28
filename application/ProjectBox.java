@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class EditProjectBox {
+public class ProjectBox {
 	private Text projectTitle;
 	private TextField titleField;
 	private TextArea descriptionField;
@@ -37,7 +37,7 @@ public class EditProjectBox {
 	 * Constructor for project box, subject to refactoring. TODO:Make interact
 	 * with project object.
 	 */
-	public EditProjectBox() {
+	public ProjectBox() {
 		constructEditBox();
 	}
 

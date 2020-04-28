@@ -5,6 +5,11 @@ import javax.swing.event.ChangeListener;
 import backend.Project;
 import javafx.stage.Stage;
 
+/**
+ * Will handle project related actions
+ * @author jcharapata
+ *
+ */
 public class ProjectHandler {
   Sidebar sidebar;
   ArrayList<Project> projects;
@@ -28,7 +33,8 @@ public class ProjectHandler {
     sidebar = new Sidebar();
     sidebar.setProjectNames(projects);
     sidebar.getProjectList().setOnMouseClicked(e->changeIssues());
-  
+    sidebar.getNewProjectButton().setOnMouseClicked(e->createNewProject());
+
   }
   
   private void changeIssues() {
@@ -49,6 +55,14 @@ public class ProjectHandler {
       }
     }
     return null;
+  }
+  
+  /**
+   * Launches new project box, creates a new project to be edited
+   */
+  private void createNewProject() {
+    Project newProject = new Project();
+    ProjectBox newProjectBox = new ProjectBox();
   }
   
 }
