@@ -14,6 +14,32 @@ import backend.Issue.Status;
  */
 public class Project implements ProjectInterface {
 
+  private ArrayList<Issue> issueList;
+  private String name;
+  private String description;
+  private Date deadline;
+  private Date dateCreated;
+  private Date dateLastAccessed;
+  private Date dateClosed;
+  private Status open;
+  
+  
+  
+  public enum Status {
+    OPEN(false),
+    CLOSED(true);
+
+    private final boolean value;
+
+    private Status(boolean value) {
+        this.value = value;
+    }
+
+    public boolean getValue() {
+        return value;
+    }
+    
+}
 	public Project() {
 		// TODO: what are the default values?
 	}
@@ -22,7 +48,7 @@ public class Project implements ProjectInterface {
 		// TODO: add implementation
 	}
 
-	public Project(ArrayList<Issue> issueList, String name, String description, Date deadline, Date dateCreated, Date dateLastAccessed, Date dateClosed, boolean open) {
+	public Project(ArrayList<Issue> issueList, String name, String description, Date deadline, Date dateCreated, Date dateLastAccessed, Date dateClosed, Status open) {
 		this.issueList = issueList;
 		this.name = name;
 		this.description = description;
@@ -106,6 +132,11 @@ public class Project implements ProjectInterface {
 	public String getDescription() {
 		return description;
 	}
+	
+	@Override
+	public void setDescription(String description) {
+	  this.description = description;
+	}
 
 	@Override
 	public Date getDeadline() {
@@ -148,22 +179,15 @@ public class Project implements ProjectInterface {
 	}
 
 	@Override
-	public boolean getOpenStatus() {
+	public Status getOpenStatus() {
 		return open;
 	}
 
 	@Override
-	public void setOpenStatus(boolean open) {
+	public void setOpenStatus(Status open) {
 		this.open = open;
 	}
 
-	private ArrayList<Issue> issueList;
-	private String name;
-	private String description;
-	private Date deadline;
-	private Date dateCreated;
-	private Date dateLastAccessed;
-	private Date dateClosed;
-	private boolean open;
+	
 
 }

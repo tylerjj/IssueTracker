@@ -62,7 +62,17 @@ public class ProjectHandler {
    */
   private void createNewProject() {
     Project newProject = new Project();
-    ProjectBox newProjectBox = new ProjectBox();
+    ProjectBox newProjectBox = new ProjectBox(null);
+    
+    
+    saveDataAction(newProjectBox, newProjectBox.getSaveDataEvent());
+    
+    
+  }
+  
+  private void saveDataAction(ProjectBox newProjectBox, ProjectBox.SaveDataEvent e) {
+    projects.add(newProjectBox.getProject());
+    constructSidebar();
   }
   
 }

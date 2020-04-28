@@ -66,6 +66,11 @@ public interface ProjectInterface {
 	 * @return description of this project object
 	 */
 	public String getDescription();
+	
+	/**
+	 * Setter for Description
+	 */
+	public void setDescription(String description);
 
 	/**
 	 * Getter for project deadline Date
@@ -128,12 +133,12 @@ public interface ProjectInterface {
 	 *
 	 * @return open - current status of the project
 	 */
-	public boolean getOpenStatus();
+	public Project.Status getOpenStatus();
 
 	/**
 	 * Setter for the open status
 	 * 
 	 * @param open - the open status, true if project is open
 	 */
-	public void setOpenStatus(boolean open);
+	public void setOpenStatus(Project.Status open);
 }
