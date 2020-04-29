@@ -47,32 +47,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// save args example
 		args = this.getParameters().getRaw();
-//
-//		//IssueBox issueBox = new IssueBox(0);
-//		//EditProjectBox projectBox = new EditProjectBox();
-//
-//		BorderPane root = new BorderPane();
-//
-//		IssueOptionBar searchbar = new IssueOptionBar();
-//		searchbar.setSpacing(10);
-//		searchbar.setPrefSize(1200, 50);
-//		searchbar.setPadding(30, 15, 30, 15);
-//		searchbar.setNewIssueButtonStyle(14, "arial", "#CC88FF");
-//
-//		VBox vbox = new VBox();
-//
-//		String projectTitle = new String("Mockup Project");
-//		String projectDescription = new String(
-//				"This is a mockup project description. \nI wonder what the textarea will do if I just keep going and going like the energizer bunny.");
-//		Boolean projectOpen = true;
-//		Date projectDeadline = new Date();
-//		ProjectDataHub projectDataHub = new ProjectDataHub(projectTitle,
-//				projectDescription, projectOpen, projectDeadline);
-//
-//		vbox.getChildren().add(projectDataHub);
-//
-//		vbox.getChildren().add(searchbar.toNode());
-//
+
 		Calendar calndr = Calendar.getInstance();
 		calndr.set(2020, 4, 20, 0, 0, 0);
 		// https://www.geeksforgeeks.org/java-string-format-examples/
@@ -96,32 +71,6 @@ public class Main extends Application {
 		assignees3.add("Mingrui Leng");
 		assignees3.add("Martin Diges");
 		Issue i3 = new Issue(Issue.Priority.LOW, "Name of Issue3", "Mockup Desc 3", new Date(deadline), Issue.Status.COMPLETE, "i3", assignees3, new Date(), new Date(), new Date());
-//		
-//		IssueTable tableHolder = new IssueTable(vbox.getPrefWidth(), vbox.getPrefWidth(), new ArrayList<Issue>());
-//		
-//		// ((Group)scene.getRoot()).getChildren().add(tableHolder);
-//
-//		// tableHolder.prefWidthProperty().bind(root.widthProperty());
-//		
-//		tableHolder.putIssueToRow(i1); tableHolder.putIssueToRow(i2);
-//		tableHolder.putIssueToRow(i3);
-//		  
-//		vbox.getChildren().add(tableHolder.getTable());
-//		  
-//		projectDataHub.setPrefWidth(tableHolder.getTable().getPrefWidth());
-//		projectDataHub.setPrefHeight(tableHolder.getTable().getPrefHeight());
-//
-//		vbox.setPadding(new Insets(0, 20, 0, 20));
-//		root.setCenter(vbox);
-//
-//		Sidebar sidebar = new Sidebar();
-//		root.setLeft(sidebar.toNode());
-//		Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-//
-//		// Add the stuff and set the primary stage
-//		primaryStage.setTitle(APP_TITLE);
-//		primaryStage.setScene(mainScene);
-//		primaryStage.show();
 		
 		//Testing for IssueHandler
 		ArrayList<Issue> issues = new ArrayList<Issue>();
@@ -129,12 +78,8 @@ public class Main extends Application {
 		System.out.println(issues.toString());
 		Stage testStage = new Stage();
 		IssueHandler issueSection = new IssueHandler(issues, testStage);
-		
-		
-		
-		
+				
 		//Testing for the ProjectHandler
-
 		ArrayList<Project> projects = new ArrayList<Project>();
 		ArrayList<Issue> issues2 = new ArrayList<Issue>();
 		issues2.add(i3); issues2.add(i1); issues2.add(i2);
@@ -144,10 +89,11 @@ public class Main extends Application {
 		
 		projects.add(firstProject);
 		projects.add(secondProject);
-		ProjectHandler projectHandler = new ProjectHandler(projects, testStage, issueSection);
+		
+		ProjectHandler projectHandler = new ProjectHandler(projects, testStage);
 		
 		BorderPane dashBoard = new BorderPane();
-		dashBoard.setCenter(issueSection.container);
+		dashBoard.setCenter(projectHandler.projectDataView);
 		dashBoard.setLeft(projectHandler.sidebar.toNode());
 		
 		Scene testScene = new Scene(dashBoard);

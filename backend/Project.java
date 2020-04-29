@@ -41,7 +41,13 @@ public class Project implements ProjectInterface {
     
 }
 	public Project() {
-		// TODO: what are the default values?
+		name = new String();
+		description = new String();
+		deadline = new Date();
+		dateCreated = new Date();
+		dateLastAccessed = new Date();
+		dateClosed = null;
+		open = Status.OPEN;
 	}
 
 	public Project(String JSON) {

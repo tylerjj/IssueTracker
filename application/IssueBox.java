@@ -209,6 +209,17 @@ public class IssueBox {
 	 */
 	private Scene theScene;
 
+	/**
+	 * 
+	 * SaveHandler - The SaveHandler is an EventHandler that
+	 * manages a saveButton clickEvent. The SaveHandler event 
+	 * handles storing IssueBox field information into
+	 * an Issue object upon saveButton being clicked.
+	 * 
+	 * @author james charapata (initial creation) 
+	 * tyler johnston (final implementation) 
+	 *
+	 */
 	class SaveHandler implements EventHandler<ActionEvent> {
 		private Button saveButton;
 

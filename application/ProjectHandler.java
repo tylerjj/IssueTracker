@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class ProjectHandler {
   Sidebar sidebar;
   ArrayList<Project> projects;
-  IssueHandler issueHandler;
+  ProjectDataHub projectDataView;
   Stage currentStage;
 
   /**
@@ -22,10 +22,15 @@ public class ProjectHandler {
    * @param currentStage
    * @param issueHandler
    */
-  public ProjectHandler(ArrayList<Project> projects, Stage currentStage, IssueHandler issueHandler) {
+  public ProjectHandler(ArrayList<Project> projects, Stage currentStage) {
     this.projects = projects;
     this.currentStage = currentStage;
-    this.issueHandler = issueHandler;
+    if (projects.size()>0) {
+    	this.projectDataView = new ProjectDataHub(projects.get(0), this.currentStage);
+    } else {
+    	this.projectDataView = new ProjectDataHub(null, currentStage);
+    }
+    
     constructSidebar();
     sidebar.setProjectNames(projects);
   }
@@ -35,7 +40,9 @@ public class ProjectHandler {
    */
   private void constructSidebar() {
     sidebar = new Sidebar();
-    sidebar.getProjectList().setOnMouseClicked(e->changeIssues());
+    sidebar.setProjectNames(projects);
+    sidebar.getProjectList().setOnMouseClicked(e->changeProjects());
+
     sidebar.getNewProjectButton().setOnMouseClicked(e->createNewProject());
 
   }
@@ -43,10 +50,11 @@ public class ProjectHandler {
   /**
    * Refreshes issues in the issueTable upon changing projects
    */
-  private void changeIssues() {
-    System.out.println(sidebar.getProjectList().getSelectionModel().getSelectedItem());
-    issueHandler.setIssues(searchProject(sidebar.getProjectList().getSelectionModel().getSelectedItem()).getIssueList());
-    issueHandler.respringIssueTable();
+
+  private void changeProjects() {
+	 Project p = searchProject(sidebar.getProjectList().getSelectionModel().getSelectedItem());
+    projectDataView.setProject(p);
+	System.out.println(sidebar.getProjectList().getSelectionModel().getSelectedItem());
   }
   
   /**
