@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,6 +19,7 @@ import org.json.simple.parser.ParseException;
 
 import backend.Issue;
 import backend.Project;
+import backend.Project.Status;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -57,8 +59,11 @@ public class Main extends Application {
 	private static final int WINDOW_HEIGHT = 350;
 	private static final String APP_TITLE = "IssueTracker";
 	
-	private static final String LOCAL_DB = "data/localdb.json";
-	private static final String DEMO_DB = "data/demodb.json";
+	private static final String DATA_DIR = "data/";
+	private static final String LOCAL_DB = DATA_DIR + "localdb.json";
+	private static final String DEMO_DB = DATA_DIR + "demodb.json";
+	
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -69,9 +74,12 @@ public class Main extends Application {
 		Main.projects = new ArrayList<Project>();
 		Main.stage = new Stage();
 		
-//		loadLocalDB();
-
+		// Uncomment both to start with fresh session for testing write accuracy
+//		loadDB(DEMO_DB); // Uncomment to load demo data.
+//		loadDB(LOCAL_DB); // Uncomment to load local data and test persistence.
+		
 		ProjectHandler projectHandler = new ProjectHandler(projects, stage);
+		
 
 		BorderPane dashBoard = new BorderPane();
 		dashBoard.setCenter(projectHandler.projectDataView);
@@ -90,31 +98,76 @@ public class Main extends Application {
 	}
 	
 	/**
-	 * Reads sample data from ./data/demodb.json for 
+	 * Reads data for new session.
+	 * 
+	 * Pass DEMO_DB for sample data
+	 * Pass LOCAL_DB for local persistence
+	 * 
 	 * presentation purposes
+	 * @throws ParseException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 * @throws java.text.ParseException 
 	 */
-	public static void loadDemoDB() {
-		System.out.println("Loading demodb.json");
-	}
-	
-	/**
-	 * Reads data from ./data/localdb.json to start a session
-	 */
-	public static void loadLocalDB() {
-		System.out.println("Loading localdb.json");
+	public static void loadDB(String DB) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
+		System.out.println("Loading " + DB);
+		JSONObject jo = (JSONObject) new JSONParser().parse(new FileReader(DB));
+		Integer p_index = 0;
+		while (jo.containsKey(p_index.toString())) {
+			Map p_map = (Map) jo.get(p_index.toString());
+			
+			System.out.println("    Building project: " + p_map.get("name"));
+			Project p = new Project();
+			p.setName(p_map.get("name").toString());
+			p.setDescription(p_map.get("description").toString());
+			p.setDeadline(DATE_FORMAT.parse(p_map.get("deadline").toString()));
+			p.setDateCreated(DATE_FORMAT.parse(p_map.get("dateCreated").toString()));
+			p.setDateLastAccessed(DATE_FORMAT.parse(p_map.get("dateLastAccessed").toString()));
+//			p.setDateClosed(DATE_FORMAT.parse(p_map.get("dateClosed").toString()));
+			p.setDateClosed(new Date());	// REMOVE when line above is uncomented
+			if (p_map.get("status").equals("OPEN")) p.setOpenStatus(Project.Status.OPEN);
+			else p.setOpenStatus(Project.Status.CLOSED);
 
-		ArrayList<Issue> issueList = new ArrayList<Issue>();
-		Project p1 = new Project();
-		p1.setName("Project 01");
-		p1.setDescription("KDFKJDSFKJDSF");
-		p1.setOpenStatus(Project.Status.OPEN);
-		p1.setDeadline(null);
-		p1.setDateCreated(null);
-		p1.setDateLastAccessed(null);
-		p1.setDateClosed(null);
-		
-		projects.add(p1);
-
+			ArrayList<Issue> issueList = new ArrayList<Issue>();
+//			Integer i_index = 0;
+//			while (((Map) p_map.get("issueList")).containsKey(i_index.toString())) {
+//				Map i_map = (Map) ((Map) p_map.get("issueList")).get(i_index.toString());
+//
+//				Issue issue = new Issue();
+//				issue.setName(i_map.get("name").toString());
+//				issue.setDescription(i_map.get("description").toString());
+//				String priority = i_map.get("priority").toString();
+//				if (priority == "LOW") issue.setPriority(Issue.Priority.LOW);
+//				else if (priority == "MEDIUM") issue.setPriority(Issue.Priority.MEDIUM);
+//				else issue.setPriority(Issue.Priority.HIGH);
+//				issue.setID(i_map.get("ID").toString());
+//				String status = i_map.get("status").toString();
+//				if (status == "TODO") issue.setStatus(Issue.Status.TODO);
+//				else if (status == "IN_PROGRESS") issue.setStatus(Issue.Status.IN_PROGRESS);
+//				else issue.setStatus(Issue.Status.COMPLETE);
+//				issue.setDeadline(DATE_FORMAT.parse(i_map.get("deadline").toString()));
+//				issue.setDateCreated(DATE_FORMAT.parse(i_map.get("dateCreated").toString()));
+//				issue.setDateLastUpdated(DATE_FORMAT.parse(i_map.get("dateLastUpdated").toString()));
+////				issue.setDateClosed(DATE_FORMAT.parse(i_map.get("dateClosed").toString()));
+//				issue.setDateClosed(new Date());	// Remove when line above is uncommented
+//				ArrayList<String> assignees = new ArrayList<String>();
+//				assignees.add("Alec");	// FIXME - placeholder
+////				String[] assigneesA = (String[]) i_map.get("assignees");
+////				for (String a : assigneesA) {
+////					assignees.add(a);
+////				}
+//				issue.setAssignees(assignees);
+//
+//				issueList.add(issue);
+//				i_index++;
+//			}
+			projects.add(p);
+			p_index++;
+		}
+		System.out.println("Built Projects:");
+		for (Project p: projects) {
+			System.out.println(p.getName());
+		}
 	}
 	
 	/**
@@ -128,16 +181,18 @@ public class Main extends Application {
 	public static void saveLocalSession() throws FileNotFoundException, IOException, ParseException {
 		System.out.println("Saving to localdb.json");
 		JSONObject jo = new JSONObject();
+		int p_index = 0;
 		for (Project p : projects) {
 			Map m = new LinkedHashMap();
 			m.put("name", p.getName());
 			m.put("description", p.getDescription());
-			m.put("deadline", p.getDeadline().toString()); // TODO
-			m.put("dateCreated", p.getDateCreated().toString());
-			m.put("dateLastAccessed", p.getDateLastAccessed().toString());
-//			m.put("dateClosed", p.getDateClosed().toString()); // Throws np
+			m.put("deadline", DATE_FORMAT.format(p.getDeadline()));
+			m.put("dateCreated", DATE_FORMAT.format(p.getDateCreated()));
+			m.put("dateLastAccessed", DATE_FORMAT.format(p.getDateLastAccessed()));
+//			m.put("dateClosed", DATE_FORMAT.format(p.getDateClosed())); // Throws np
 			m.put("status", p.getOpenStatus().toString());
 			Map issueList = new LinkedHashMap();
+			int i_index = 0;
 			for (Issue i : p.getIssueList()) {
 				Map issueMap = new LinkedHashMap();
 				issueMap.put("name", i.getName());
@@ -145,22 +200,23 @@ public class Main extends Application {
 				issueMap.put("priority", i.getPriority().toString());
 				issueMap.put("ID", i.getID());
 				issueMap.put("status", i.getStatus().toString());
-				issueMap.put("deadline", i.getDeadline().toString());
-				issueMap.put("dateCreated", i.getDateCreated().toString());
-				issueMap.put("dateLastUpdated", i.getDateLastUpdated().toString());
-//				issueMap.put("dateClosed", i.getDateClosed().toString()); // np
+				issueMap.put("deadline", DATE_FORMAT.format(i.getDeadline()));
+				issueMap.put("dateCreated", DATE_FORMAT.format(i.getDateCreated()));
+				issueMap.put("dateLastUpdated", DATE_FORMAT.format(i.getDateLastUpdated()));
+//				issueMap.put("dateClosed", DATE_FORMAT.format(i.getDateClosed()));  // np
 				JSONArray assignees = new JSONArray();
-				for (String assignee: i.getAssignees()) {
+				for (String assignee: i.getAssignees()) { // TODO - Not storing assignees
 					assignees.add(assignee);
 				}
 				issueMap.put("assignees", assignees);
-				issueList.put(i.getName(), issueMap);
+				issueList.put(i_index, issueMap);
+				i_index++;
 			}
 			m.put("issueList", issueList);
-			jo.put(p.getName(), m);
+			jo.put(p_index, m);
+			p_index++;
 		}
 		
-		System.out.println(jo.toJSONString());
 		PrintWriter pw = new PrintWriter(LOCAL_DB);
 		pw.write(jo.toJSONString());
 		pw.flush();
