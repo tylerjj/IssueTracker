@@ -11,3 +11,11 @@ features to be implemented. Will compliment git version control for easy trackin
 - **Tyler Johnston** (XTeam-212)
 - **Mingrui Leng** (XTeam-212)
 - **Alec Lowry** (XTeam-212)
+
+## Known Bugs
+
+- [ ] Foo
+
+## Unimplemented Features
+
+- [ ] Faa
