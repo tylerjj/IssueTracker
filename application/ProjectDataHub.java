@@ -76,11 +76,21 @@ public class ProjectDataHub extends BorderPane {
 
 	TextArea descriptionField;
 	
+	VBox newSessionOptions;
+	Button newLocalDB;
+	Button loadLocalDB;
+	Button loadDemoDB;
+	
 	
 	public ProjectDataHub(Project project, Stage currentStage) {
 		this.currentStage = currentStage;
 		if (project == null) {
+//			newLocalDB = new Button
+//			newSessionOptions = new VBox(newLocalDB, loadLocalDB, loadDemoDB);
+//			this.setCenter(newSessionOptions);
+//			Main.loadLocalDB(); // Refresh
 			this.setCenter(new Label("Select or create a project"));
+
 		} else {
 				this.project = project;
 				issues = project.getIssueList();
