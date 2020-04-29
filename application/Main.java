@@ -38,6 +38,9 @@ public class Main extends Application {
 	// store any command-line arguments that were entered.
 	// NOTE: this.getParameters().getRaw() will get these also
 	private List<String> args;
+	private ArrayList<Project> projects;
+	private Stage stage;
+	private IssueHandler issueView;
 
 	private static final int WINDOW_WIDTH = 1000;
 	private static final int WINDOW_HEIGHT = 350;
@@ -48,57 +51,20 @@ public class Main extends Application {
 		// save args example
 		args = this.getParameters().getRaw();
 
-		Calendar calndr = Calendar.getInstance();
-		calndr.set(2020, 4, 20, 0, 0, 0);
-		// https://www.geeksforgeeks.org/java-string-format-examples/
-		String deadline = String.format("%d/%d/%d", calndr.get(Calendar.MONTH),
-				calndr.get(Calendar.DAY_OF_MONTH), calndr.get(Calendar.YEAR));
-		Date currentDate = new Date();
-//    
-		ArrayList<String> assignees1 = new ArrayList<String>();
-		assignees1.add("Tyler Johnston");
-		assignees1.add("Mingrui Leng");
-		Issue i1 = new Issue(Issue.Priority.MEDIUM, "Name of Issue1", "This is a mockup issue description.  I'm going to make it extra long.", new Date(), Issue.Status.TODO, "i1", assignees1, new Date(), new Date(), null);
+		// Default init vals
+		this.projects = new ArrayList<Project>();
+		this.stage = new Stage();
+		this.issueView = new IssueHandler(new ArrayList<Issue>(), this.stage);
 
-		ArrayList<String> assignees2 = new ArrayList<String>();
-		assignees2.add("Martin Diges");
-		Issue i2 = new Issue(Issue.Priority.HIGH, "Name of Issue2", "Mockup Description 2", new Date(deadline),Issue.Status.IN_PROGRESS, "i2", assignees2, new Date(), new Date(), null);
-		
-		ArrayList<String> assignees3 = new ArrayList<String>();
-		assignees3.add("Tyler Johnston");
-		assignees3.add("Alec Lowry");
-		assignees3.add("James Charapata");
-		assignees3.add("Mingrui Leng");
-		assignees3.add("Martin Diges");
-		Issue i3 = new Issue(Issue.Priority.LOW, "Name of Issue3", "Mockup Desc 3", new Date(deadline), Issue.Status.COMPLETE, "i3", assignees3, new Date(), new Date(), new Date());
-		
-		//Testing for IssueHandler
-		ArrayList<Issue> issues = new ArrayList<Issue>();
-		issues.add(i1); issues.add(i2); issues.add(i3);
-		System.out.println(issues.toString());
-		Stage testStage = new Stage();
-		IssueHandler issueSection = new IssueHandler(issues, testStage);
-				
-		//Testing for the ProjectHandler
-		ArrayList<Project> projects = new ArrayList<Project>();
-		ArrayList<Issue> issues2 = new ArrayList<Issue>();
-		issues2.add(i3); issues2.add(i1); issues2.add(i2);
-		Project firstProject = new Project(issues, "First Project", "For the memes", new Date(), new Date(), new Date(), new Date(), Project.Status.OPEN);
-		Project secondProject = new Project(issues2, "Second Project", "For the memes", new Date(), new Date(), new Date(), new Date(), Project.Status.OPEN);
-		
-		
-		projects.add(firstProject);
-		projects.add(secondProject);
-		
-		ProjectHandler projectHandler = new ProjectHandler(projects, testStage);
-		
+		ProjectHandler projectHandler = new ProjectHandler(projects, stage, issueView);
+
 		BorderPane dashBoard = new BorderPane();
-		dashBoard.setCenter(projectHandler.projectDataView);
+		dashBoard.setCenter(issueView.container);
 		dashBoard.setLeft(projectHandler.sidebar.toNode());
-		
+
 		Scene testScene = new Scene(dashBoard);
-		testStage.setScene(testScene);
-		testStage.show();
+		stage.setScene(testScene);
+		stage.show();
 	}
 
 	/**
