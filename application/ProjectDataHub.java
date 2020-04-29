@@ -19,8 +19,12 @@
  */
 package application;
 
+import java.util.ArrayList;
 import java.util.Date;
 
+import backend.Issue;
+import backend.Project;
+import backend.Project.Status;
 import javafx.collections.*;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -33,6 +37,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 /**
  * ProjectDataHub - TODO Describe purpose of this user defined type
@@ -42,17 +47,23 @@ import javafx.scene.text.Font;
  */
 public class ProjectDataHub extends BorderPane {
 
-	String description;
+	Stage currentStage;
+	Project project;
+	ArrayList<Issue> issues;
 	String title;
-	boolean state;
+	String description;
 	Date deadline;
-
-	// ProjectTitle {Description} Edit
-	// Open/Closed {Description} Remove
-
+	
+	//Date dateCreated;
+	//Date dateLastAccessed;
+	//Date dateClosed;
+	
+	Status state;
+	
+	IssueHandler issueHandler;
+	
 	VBox titleStateDeadlineBox;
 	VBox descriptionBox;
-	// ScrollPane descriptionPane;
 	TitledPane descriptionPane;
 	VBox editAndRemoveBox;
 
@@ -64,22 +75,50 @@ public class ProjectDataHub extends BorderPane {
 	Button removeButton;
 
 	TextArea descriptionField;
+	
+	
+	public ProjectDataHub(Project project, Stage currentStage) {
+		this.currentStage = currentStage;
+		if (project == null) {
+			this.setCenter(new Label("Select or create a project"));
+		} else {
+				this.project = project;
+				issues = project.getIssueList();
+				title = project.getName();
+				description = project.getDescription();
+				state = project.getOpenStatus();
+				deadline = project.getDeadline();
+				issueHandler = new IssueHandler(issues, this.currentStage);
+				constructProjectDataHub();
+		}
 
-	public ProjectDataHub(String title, String description, boolean state,
-			Date deadline) {
-		this.title = title;
-		this.description = description;
-		this.state = state;
+	}
+	
+	public void setProject(Project project) {
+		if (project == null) {
+			this.setLeft(null);
+			this.setRight(null);
+			this.setBottom(null);
+			this.setCenter(new Label("Select or create a project"));
+		} else {
+				this.project = project;
+				issues = project.getIssueList();
+				title = project.getName();
+				description = project.getDescription();
+				state = project.getOpenStatus();
+				deadline = project.getDeadline();
+				issueHandler = new IssueHandler(issues, currentStage);
+				constructProjectDataHub();
+		}
+	}
 
+	private void constructProjectDataHub() {
+		
 		titleLabel = new Label(title);
 		titleLabel.setFont(new Font("Arial", 25));
 		titleLabel.setPadding(new Insets(10, 10, 10, 0));
 
-		if (state == true) {
-			stateLabel = new Label("State: Open");
-		} else {
-			stateLabel = new Label("State: Closed");
-		}
+		stateLabel = new Label(state.toString());
 		stateLabel.setPadding(new Insets(10, 10, 10, 0));
 
 		deadlineLabel = new Label(deadline.toString());
@@ -110,9 +149,9 @@ public class ProjectDataHub extends BorderPane {
 		this.setLeft(titleStateDeadlineBox);
 		this.setRight(editAndRemoveBox);
 		this.setCenter(descriptionBox);
+		this.setBottom(issueHandler.getContainer());
 		this.setPadding(new Insets(10, 10, 20, 0));
 	}
-
 	/**
 	 * @return the description
 	 */
@@ -144,14 +183,14 @@ public class ProjectDataHub extends BorderPane {
 	/**
 	 * @return the state
 	 */
-	public boolean isState() {
+	public Status isState() {
 		return state;
 	}
 
 	/**
 	 * @param state the state to set
 	 */
-	public void setState(boolean state) {
+	public void setState(Status state) {
 		this.state = state;
 	}
 

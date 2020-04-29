@@ -14,7 +14,7 @@ public class Issue implements IssueInterface {
 
 	    private final int value;
 
-	    private Status(int value) {
+	    Status(int value) {
 	        this.value = value;
 	    }
 
@@ -31,7 +31,7 @@ public class Issue implements IssueInterface {
 		
 		private final int value;
 		
-		private Priority(int value) {
+		Priority(int value) {
 			this.value = value;
 		}
 		

@@ -6,14 +6,14 @@ import backend.Project;
 import javafx.stage.Stage;
 
 /**
- * Will handle project related actions
+ * Handles project related actions such as adding a project, switching issueLists, etc.
  * @author jcharapata
  *
  */
 public class ProjectHandler {
   Sidebar sidebar;
   ArrayList<Project> projects;
-  IssueHandler issueHandler;
+  ProjectDataHub projectDataView;
   Stage currentStage;
 
   /**
@@ -22,25 +22,39 @@ public class ProjectHandler {
    * @param currentStage
    * @param issueHandler
    */
-  public ProjectHandler(ArrayList<Project> projects, Stage currentStage, IssueHandler issueHandler) {
+  public ProjectHandler(ArrayList<Project> projects, Stage currentStage) {
     this.projects = projects;
     this.currentStage = currentStage;
-    this.issueHandler = issueHandler;
+    if (projects.size()>0) {
+    	this.projectDataView = new ProjectDataHub(projects.get(0), this.currentStage);
+    } else {
+    	this.projectDataView = new ProjectDataHub(null, currentStage);
+    }
+    
     constructSidebar();
+    sidebar.setProjectNames(projects);
   }
 
+  /**
+   * Caller for the sidebar class, setup the button and list events for it.
+   */
   private void constructSidebar() {
     sidebar = new Sidebar();
     sidebar.setProjectNames(projects);
-    sidebar.getProjectList().setOnMouseClicked(e->changeIssues());
+    sidebar.getProjectList().setOnMouseClicked(e->changeProjects());
+
     sidebar.getNewProjectButton().setOnMouseClicked(e->createNewProject());
 
   }
   
-  private void changeIssues() {
-    System.out.println(sidebar.getProjectList().getSelectionModel().getSelectedItem());
-    issueHandler.setIssues(searchProject(sidebar.getProjectList().getSelectionModel().getSelectedItem()).getIssueList());
-    issueHandler.respringIssueTable();
+  /**
+   * Refreshes issues in the issueTable upon changing projects
+   */
+
+  private void changeProjects() {
+	 Project p = searchProject(sidebar.getProjectList().getSelectionModel().getSelectedItem());
+    projectDataView.setProject(p);
+	System.out.println(sidebar.getProjectList().getSelectionModel().getSelectedItem());
   }
   
   /**
@@ -50,7 +64,7 @@ public class ProjectHandler {
    */
   private Project searchProject(String projectName) {
     for(Project project: projects) {
-      if(project.getName().equals(projectName)) {
+      if(project.getName() != null && project.getName().equals(projectName)) {
         return project;
       }
     }
@@ -62,17 +76,24 @@ public class ProjectHandler {
    */
   private void createNewProject() {
     Project newProject = new Project();
-    ProjectBox newProjectBox = new ProjectBox(null);
+    ProjectBox newProjectBox = new ProjectBox(null, sidebar);
     
-    
-    saveDataAction(newProjectBox, newProjectBox.getSaveDataEvent());
+    newProjectBox.getBoxStage().setOnCloseRequest(e->saveDataAction(newProjectBox));
+    newProjectBox.getBoxStage().setOnHidden(e->saveDataAction(newProjectBox));
     
     
   }
   
-  private void saveDataAction(ProjectBox newProjectBox, ProjectBox.SaveDataEvent e) {
-    projects.add(newProjectBox.getProject());
-    constructSidebar();
+  /**
+   * Saves data upon a saved project from the ProjectBox
+   * @param newProjectBox
+   */
+  private void saveDataAction(ProjectBox newProjectBox) {
+    //Ensures nothing gets changed if Box is canceled or 
+    if(newProjectBox.getProjectSaved()) {
+      projects.add(newProjectBox.getProject());
+      sidebar.setProjectNames(projects);
+    }
   }
   
 }

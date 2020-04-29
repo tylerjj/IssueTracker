@@ -48,6 +48,13 @@ public interface ProjectInterface {
      */
     public ArrayList<Issue> getIssueList();
 
+    
+    /**
+     * Setter for issueList
+     * @param issueList
+     */
+    public void setIssueList(ArrayList<Issue> issueList);
+    
     /**
      * Getter for project name
      *
