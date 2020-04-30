@@ -34,10 +34,12 @@ import backend.Issue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -72,8 +74,11 @@ public class IssueHandler {
 		
 		issueTable = new IssueTable(container.getPrefWidth(), container.getPrefHeight(), this.issues);
 		issueTable.getTable().setOnMouseClicked(e->issueTableClickAction(e));
-				
-		container.getChildren().addAll(issueOptions.toNode(), issueTable.getTable());
+		
+		Label sectionTitle = new Label("Issue Manager: ");
+		sectionTitle.setStyle("-fx-font: " + 20 + " " + "arial" + "; -fx-base: "+"#CC88FF");
+		container.getChildren().addAll(sectionTitle, issueOptions.toNode(), issueTable.getTable());
+		container.setPadding(new Insets(30, 15, 30, 15));
 		
 		issueOptions.getNewIssueButton().setOnAction(e->newIssueAction(e));
 		
@@ -83,7 +88,8 @@ public class IssueHandler {
 		issueOptions.getRemoveIssueButton().setOnAction(e->removeIssueAction(e));
 		issueOptions.getRemoveIssueButton().setDisable(true);
 		
-		issueOptions.getSearchBarTextField().setOnAction(e->searchIssueAction(e));
+		/* Use this once search/sort are implemented. */
+		//issueOptions.getSearchBarTextField().setOnAction(e->searchIssueAction(e));
 	}
 	
 	public void constructIssueTable() {

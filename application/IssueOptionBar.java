@@ -27,7 +27,7 @@ import javafx.scene.paint.Color;
  */
 public class IssueOptionBar {
 
-	HBox searchBar;
+	HBox optionBar;
 	Label searchIssuesLabel;
 	Label searchByLabel;
 	TextField searchBarTextField;
@@ -47,36 +47,45 @@ public class IssueOptionBar {
 		setMaxSize(maxWidth, maxHeight);
 	}
 
-	// Constructs a new searchBar with minimal constraints
+	// Constructs a new optionBar with minimal constraints
 	private void createIssueOptionBar() {
-		searchBar = new HBox();
-		searchIssuesLabel = new Label("Search Issues in ");
-		searchIssuesLabel.setWrapText(true);
+		optionBar = new HBox();
+		/* Unimplemented Feature: Search/Sort */
 		
-		searchByLabel = new Label("Search by ");
-		searchByLabel.setWrapText(true);
+		//searchIssuesLabel = new Label("Search Issues in ");
+		//searchIssuesLabel.setWrapText(true);
 		
-		searchBarTextField = new TextField();
-		setPrompt("Search Issues here");
-		searchByChoiceBox = new ChoiceBox<String>(FXCollections
-				.observableArrayList("Issue Name", "Issue ID", "Assignee"));
-		searchByChoiceBox.setValue("Issue Name");
+		//searchByLabel = new Label("Search by ");
+		//searchByLabel.setWrapText(true);
+		
+		//searchBarTextField = new TextField();
+		//setPrompt("Search Issues here");
+		
+		//searchByChoiceBox = new ChoiceBox<String>(FXCollections
+		//		.observableArrayList("Issue Name", "Issue ID", "Assignee"));
+		//searchByChoiceBox.setValue("Issue Name");
+		
 		newIssueButton = new Button("New Issue");
 		editIssueButton = new Button("Edit Issue");
 		removeIssueButton = new Button("Remove Issue");
-		searchBar.getChildren().addAll(searchIssuesLabel,
-				searchBarTextField, searchByLabel, searchByChoiceBox,
-				newIssueButton, editIssueButton, removeIssueButton);
+		
+		/* Use this when Search/Sort are implemented. */
+		//optionBar.getChildren().addAll(searchIssuesLabel,
+		//		searchBarTextField, searchByLabel, searchByChoiceBox,
+		//		newIssueButton, editIssueButton, removeIssueButton);
+		
+		/* Temp until Search/Sort are implemented. */
+		optionBar.getChildren().addAll(newIssueButton, editIssueButton, removeIssueButton);
 	}
 
 	// Sets the maximum dimensions for the search bar
 	public void setMaxSize(double maxWidth, double maxHeight) {
-		searchBar.setMaxSize(maxWidth, maxHeight);
+		optionBar.setMaxSize(maxWidth, maxHeight);
 	}
 
 	// Sets the preferred dimensions of the search bar
 	public void setPrefSize(double prefWidth, double prefHeight) {
-		searchBar.setPrefSize(prefWidth, prefHeight);
+		optionBar.setPrefSize(prefWidth, prefHeight);
 	}
 
 	// Changes the project name being displayed on currentProject_Label
@@ -99,14 +108,14 @@ public class IssueOptionBar {
 		searchBarTextField.setPromptText(prompt);
 	}
 
-	// Sets the spacing between searchBar's horizontal components
+	// Sets the spacing between optionBar's horizontal components
 	public void setSpacing(double spacing) {
-		searchBar.setSpacing(spacing);
+		optionBar.setSpacing(spacing);
 	}
 
 	// Sets padding on all sides of the search bar
 	public void setPadding(int top, int right, int bottom, int left) {
-		searchBar.setPadding(new Insets(top, right, bottom, left));
+		optionBar.setPadding(new Insets(top, right, bottom, left));
 	}
 
 	// Assigns a new event to the New Issue button
@@ -129,21 +138,21 @@ public class IssueOptionBar {
 
 	// Returns a Node representation of the SearchBar object
 	public Node toNode() {
-		return searchBar;
+		return optionBar;
 	}
 
 	/**
-	 * @return the searchBar
+	 * @return the optionBar
 	 */
 	public HBox getSearchBar() {
-		return searchBar;
+		return optionBar;
 	}
 
 	/**
-	 * @param searchBar the searchBar to set
+	 * @param optionBar the optionBar to set
 	 */
 	public void setSearchBar(HBox searchBar) {
-		this.searchBar = searchBar;
+		this.optionBar = searchBar;
 	}
 
 	/**

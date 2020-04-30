@@ -419,7 +419,12 @@ public class IssueBox {
 
 	public void show() {
 		theScene = new Scene(frame, 700, 350);
-		dialogStage.setTitle("New Issue");
+		//dialogStage.setTitle("New Issue");
+		if (issue == null) {
+			dialogStage.setTitle("New Issue");
+		} else {
+			dialogStage.setTitle("Edit Issue");
+		}
 		dialogStage.setScene(theScene);
 		dialogStage.show();
 	}

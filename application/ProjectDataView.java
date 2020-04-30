@@ -1,6 +1,6 @@
 /**
  * 
- * ProjectDataHub.java created by tyler on Windows 10 PC in IssueTracker
+ * ProjectDataView.java created by tyler on Windows 10 PC in IssueTracker
  * 
  * Author: Tyler Johnston (tjohnston@cs.wisc.edu) Date: @date
  * 
@@ -40,29 +40,28 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- * ProjectDataHub - TODO Describe purpose of this user defined type
+ * ProjectDataView - TODO Describe purpose of this user defined type
  * 
  * @author tyler johnston (2020)
  *
  */
-public class ProjectDataHub extends BorderPane {
+public class ProjectDataView extends BorderPane {
 
 	Stage currentStage;
+	
 	Project project;
+	
 	ArrayList<Issue> issues;
 	String title;
 	String description;
 	Date deadline;
-	
-	//Date dateCreated;
-	//Date dateLastAccessed;
-	//Date dateClosed;
-	
+	Date dateCreated;
+	Date dateClosed;
 	Status state;
 	
 	IssueHandler issueHandler;
 	
-	VBox titleStateDeadlineBox;
+	VBox titleStateDateBox;
 	VBox descriptionBox;
 	TitledPane descriptionPane;
 	VBox editAndRemoveBox;
@@ -70,7 +69,10 @@ public class ProjectDataHub extends BorderPane {
 	Label titleLabel;
 	Label stateLabel;
 	Label deadlineLabel;
-
+	
+	Label dateCreatedLabel;
+	Label dateClosedLabel;
+	
 	Button editButton;
 	Button removeButton;
 
@@ -78,22 +80,9 @@ public class ProjectDataHub extends BorderPane {
 	
 	
 	
-	public ProjectDataHub(Project project, Stage currentStage) {
+	public ProjectDataView(Project project, Stage currentStage) {
 		this.currentStage = currentStage;
-		if (project == null) {
-			this.setCenter(new Label("Select or create a project"));
-
-		} else {
-				this.project = project;
-				issues = project.getIssueList();
-				title = project.getName();
-				description = project.getDescription();
-				state = project.getOpenStatus();
-				deadline = project.getDeadline();
-				issueHandler = new IssueHandler(issues, this.currentStage);
-				constructProjectDataHub();
-		}
-
+		setProject(project);
 	}
 	
 	/**
@@ -112,6 +101,8 @@ public class ProjectDataHub extends BorderPane {
 				description = project.getDescription();
 				state = project.getOpenStatus();
 				deadline = project.getDeadline();
+				dateCreated = project.getDateCreated();
+				dateClosed = project.getDateClosed();
 				issueHandler = new IssueHandler(issues, currentStage);
 				constructProjectDataHub();
 		}
@@ -123,21 +114,29 @@ public class ProjectDataHub extends BorderPane {
 		titleLabel.setFont(new Font("Arial", 25));
 		titleLabel.setPadding(new Insets(10, 10, 10, 0));
 
-		stateLabel = new Label(state.toString());
+		stateLabel = new Label("State: "+state.toString());
 		stateLabel.setPadding(new Insets(10, 10, 10, 0));
 
-		deadlineLabel = new Label(deadline.toString());
+		deadlineLabel = new Label("Deadline: \n"+deadline.toString());
 		deadlineLabel.setPadding(new Insets(20, 10, 10, 0));
 
-		titleStateDeadlineBox = new VBox(titleLabel, stateLabel, deadlineLabel);
-
+		dateCreatedLabel = new Label("Date Created: \n"+dateCreated.toString());
+		dateCreatedLabel.setPadding(new Insets(20, 10, 10, 0));
+		
+		/* Wasn't updating when a project's state was set to closed, so removing it for now.*/
+//		if (state == state.CLOSED && dateClosed != null) {
+//			dateClosedLabel = new Label("Date Closed: \n"+dateClosed.toString());
+//		} else {
+//			dateClosedLabel = new Label("Date Closed: N/A");
+//		}
+//		dateClosedLabel.setPadding(new Insets(20, 10, 10, 0));
+		
+		titleStateDateBox = new VBox(titleLabel, stateLabel, deadlineLabel, dateCreatedLabel);
+		titleStateDateBox.setPadding(new Insets(0,0,0,10));
 		descriptionField = new TextArea(description);
 		descriptionField.editableProperty().set(false);
 		descriptionField.setEditable(false);
-
-		// descriptionPane = new ScrollPane(descriptionField);
-		// descriptionPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		// descriptionPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		descriptionField.setPrefHeight(titleStateDateBox.getPrefHeight());
 
 		descriptionPane = new TitledPane("Description", descriptionField);
 		descriptionBox = new VBox(descriptionPane);
@@ -147,11 +146,14 @@ public class ProjectDataHub extends BorderPane {
 		descriptionField.setWrapText(true);
 
 		editButton = new Button("Edit Project");
+		HBox editButtonBox = new HBox(editButton);
+		editButtonBox.setPadding(new Insets(20, 10, 10, 20));
 		removeButton = new Button("Remove Project");
-
-		editAndRemoveBox = new VBox(editButton, removeButton);
-
-		this.setLeft(titleStateDeadlineBox);
+		HBox removeButtonBox = new HBox(removeButton);
+		removeButtonBox.setPadding(new Insets(20, 10, 10, 20));
+		editAndRemoveBox = new VBox(editButtonBox, removeButtonBox);
+		//editAndRemoveBox.setPadding(new Insets(20, 10, 10, 20));
+		this.setLeft(titleStateDateBox);
 		this.setRight(editAndRemoveBox);
 		this.setCenter(descriptionBox);
 		this.setBottom(issueHandler.getContainer());
@@ -212,14 +214,14 @@ public class ProjectDataHub extends BorderPane {
 	 * @return the titleAndStateBox
 	 */
 	public VBox getTitleAndStateBox() {
-		return titleStateDeadlineBox;
+		return titleStateDateBox;
 	}
 
 	/**
 	 * @param titleAndStateBox the titleAndStateBox to set
 	 */
 	public void setTitleAndStateBox(VBox titleAndStateBox) {
-		this.titleStateDeadlineBox = titleAndStateBox;
+		this.titleStateDateBox = titleAndStateBox;
 	}
 
 	/**

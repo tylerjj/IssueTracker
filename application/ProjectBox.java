@@ -128,20 +128,44 @@ public class ProjectBox {
     		  
     	  }
 
-    	  editingStage.hide();
+    	  Event saveDataEvent = new SaveDataEvent();
+    	  editingStage.fireEvent(saveDataEvent);
+    	  editingStage.close();
       }
     }
   }
 
   /**
-   * Constructor for project box, subject to refactoring. TODO:Make interact with project object.
+   * Constructor for project box, subject to refactoring. 
    */
-  public ProjectBox(Project project, Sidebar sidebar) {
+  public ProjectBox(Project project, Sidebar sidebar, Stage dialog) {
+	this.editingStage = dialog;
     this.project = project;
     this.sidebar = sidebar;
     constructEditBox();
   }
+  public void show() {
+	  editingScene = new Scene(frame, 700, 350);
+	  if (project == null) {
+		  editingStage.setTitle("New Project");
+	  } else {
+		  editingStage.setTitle("Edit Project");
+	  }
+	  editingStage.setScene(editingScene);
+	  editingStage.show();
+  }
+  
+  //https://stackoverflow.com/questions/27416758/how-to-emit-and-handle-custom-events
+	static class SaveDataEvent extends Event {
 
+		public static final EventType<SaveDataEvent> SAVE_PRESSED = new EventType<>(
+				Event.ANY, "SAVE_PRESSED");
+
+		public SaveDataEvent() {
+			super(SAVE_PRESSED);
+		}
+	}
+	
   private void constructEditBox() {
 
     if (project == null) {
@@ -197,9 +221,7 @@ public class ProjectBox {
 
 
     cancelButton = new Button("Cancel");
-   
     saveButton = new Button("Save");
-    
     
     buttonField = new HBox();
     buttonField.getChildren().addAll(cancelButton, saveButton);
@@ -214,13 +236,6 @@ public class ProjectBox {
     frame.setBottom(buttonField);
     frame.setCenter(body);
     frame.setTop(projectTitle);
-
-    // display new stage
-    editingStage = new Stage();
-    editingScene = new Scene(frame, 700, 350);
-    editingStage.setTitle("New Project");
-    editingStage.setScene(editingScene);
-    editingStage.show();
     
     cancelButton.setOnAction(e->editingStage.hide());
     SaveHandler saveHandler = new SaveHandler(saveButton);

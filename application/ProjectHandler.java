@@ -8,6 +8,7 @@ import backend.Project;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -20,7 +21,7 @@ import javafx.stage.Stage;
 public class ProjectHandler {
 	Sidebar sidebar;
 	ArrayList<Project> projects;
-	ProjectDataHub projectDataView;
+	ProjectDataView projectDataView;
 	Stage currentStage;
 
 	/**
@@ -35,13 +36,13 @@ public class ProjectHandler {
 		this.projects = projects;
 		this.currentStage = currentStage;
 		if (projects.size() > 0) {
-			this.projectDataView = new ProjectDataHub(projects.get(0),
+			this.projectDataView = new ProjectDataView(projects.get(0),
 					this.currentStage);
 			this.projectDataView.getRemoveButton()
 					.setOnAction(e -> removeProjectButtonAction());
 			this.projectDataView.getEditButton().setOnAction(e->editProjectButtonAction());
 		} else {
-			this.projectDataView = new ProjectDataHub(null, currentStage);
+			this.projectDataView = new ProjectDataView(null, currentStage);
 		}
 
 		constructSidebar();
@@ -99,14 +100,16 @@ public class ProjectHandler {
 	/**
 	 * Launches new project box, creates a new project to be edited
 	 */
-	private void createNewProject() {
-		Project newProject = new Project();
-		ProjectBox newProjectBox = new ProjectBox(null, sidebar);
-
-		newProjectBox.getBoxStage()
-				.setOnCloseRequest(e -> saveDataAction(newProjectBox));
-		newProjectBox.getBoxStage()
-				.setOnHidden(e -> saveDataAction(newProjectBox));
+	private void createNewProject() 
+	{
+		Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		dialog.initOwner(currentStage);
+		
+		ProjectBox newProjectBox = new ProjectBox(null, sidebar,dialog);
+		newProjectBox.show();
+		
+		dialog.addEventHandler(ProjectBox.SaveDataEvent.SAVE_PRESSED, event -> saveDataAction(newProjectBox));
 	}
 
 	/**
@@ -175,10 +178,13 @@ public class ProjectHandler {
 	}
 
 	private void editProjectButtonAction() {
-		ProjectBox newProjectBox = new ProjectBox(projectDataView.getProject(), sidebar);
+		Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		dialog.initOwner(currentStage);
 		
-		newProjectBox.getBoxStage().setOnCloseRequest(e -> saveDataAction(newProjectBox));
-
-		newProjectBox.getBoxStage().setOnHidden(e -> saveDataAction(newProjectBox));
+		ProjectBox newProjectBox = new ProjectBox(projectDataView.getProject(), sidebar,dialog);
+		newProjectBox.show();
+		
+		dialog.addEventHandler(ProjectBox.SaveDataEvent.SAVE_PRESSED, event -> saveDataAction(newProjectBox));
 	}
 }
