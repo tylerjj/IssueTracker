@@ -36,9 +36,10 @@ public class ProjectHandler {
 		this.currentStage = currentStage;
 		if (projects.size() > 0) {
 			this.projectDataView = new ProjectDataHub(projects.get(0),
-					this.currentStage);		
+					this.currentStage);
 			this.projectDataView.getRemoveButton()
-				.setOnAction(e -> removeProjectButtonAction());
+					.setOnAction(e -> removeProjectButtonAction());
+			this.projectDataView.getEditButton().setOnAction(e->editProjectButtonAction());
 		} else {
 			this.projectDataView = new ProjectDataHub(null, currentStage);
 		}
@@ -65,10 +66,12 @@ public class ProjectHandler {
 		projectDataView.setProject(p);
 		projectDataView.getRemoveButton()
 				.setOnAction(e -> removeProjectButtonAction());
+		projectDataView.getEditButton().setOnAction(e->editProjectButtonAction());
+
 	}
 
 	/**
-	 * Updates the ProjectDataView when a project is selected on the sidebar. 
+	 * Updates the ProjectDataView when a project is selected on the sidebar.
 	 */
 	private void changeProjects() {
 		Project p = searchProject(
@@ -112,37 +115,53 @@ public class ProjectHandler {
 	 * @param newProjectBox
 	 */
 	private void saveDataAction(ProjectBox newProjectBox) {
-		// Ensures the project is only saved if the save/submit button is pressed.
+		// Ensures the project is only saved if the save/submit button is
+		// pressed.
 		if (newProjectBox.getProjectSaved()) {
-			// Stores the newly saved project in our list of projects.
-			projects.add(newProjectBox.getProject());
-			// Sets the project names to be displayed in our sidebar. 
+			
+			Project p = newProjectBox.getProject();
+			
+			if (sidebar.getProjectList().getItems().contains(p.getName())){
+				int index = sidebar.getProjectList().getItems().indexOf(p.getName());
+				projects.remove(index);
+				projects.add(index, p);
+				//projects.removeIf(project->project.getName().equals(p.getName()));
+			}	else {
+				
+				// Stores the newly saved project in our list of projects.
+				projects.add(p);
+			}
+			
+			// Sets the project names to be displayed in our sidebar.
 			sidebar.setProjectNames(projects);
+			
+			// Sets the ProjectDataView to the saved project. 
+			updateProjectDataView(p);
 		}
 	}
 
 	/**
-	 * This helper is called whenever Remove Project is clicked. 
+	 * This helper is called whenever Remove Project is clicked.
 	 */
 	private void removeProjectButtonAction() {
-		
+
 		// Throw a confirmation alert to verify that the user wants to remove
 		// this project.
 		Alert alert = new Alert(AlertType.CONFIRMATION,
 				"Remove this project from the IssueTracker?");
 
 		// https://stackoverflow.com/questions/44101426/javafx-alert-box-on-button-click/44101484
-		
-		// Wait for and get the result from the alert. 
+
+		// Wait for and get the result from the alert.
 		Optional<ButtonType> result = alert.showAndWait();
-		
+
 		// If the user confirms they want to remove the project:
 		if (result.get() == ButtonType.OK) {
 
 			// Remove the project from the list of projects
 			projects.removeIf(project -> project.getName()
 					.equals(projectDataView.getProject().getName()));
-			
+
 			// Update the sidebar.
 			sidebar.setProjectNames(projects);
 
@@ -153,5 +172,13 @@ public class ProjectHandler {
 				projectDataView.setProject(projects.get(0));
 			}
 		}
+	}
+
+	private void editProjectButtonAction() {
+		ProjectBox newProjectBox = new ProjectBox(projectDataView.getProject(), sidebar);
+		
+		newProjectBox.getBoxStage().setOnCloseRequest(e -> saveDataAction(newProjectBox));
+
+		newProjectBox.getBoxStage().setOnHidden(e -> saveDataAction(newProjectBox));
 	}
 }

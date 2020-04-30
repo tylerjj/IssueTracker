@@ -34,6 +34,7 @@ import javafx.stage.Stage;
  *
  */
 public class ProjectBox {
+  private Sidebar sidebar;
   private Project project;
   private ComboBox<Project.Status> openStatusBox;
   private Text projectTitle;
@@ -75,6 +76,16 @@ public class ProjectBox {
       if (name == null || name.isBlank()) {
         missingFields = true;
       }
+      // This is ugly but here's the conditional:
+      //     If this is a New Project and the user picks a name that is already taken, throw an alert.
+      //     or If this is an Edit Project and the user picks a name that is already taken (excluding the name the project already had).
+      if ((project == null && sidebar.getProjectList().getItems().contains(name))
+    		  || (project != null && sidebar.getProjectList().getItems().contains(name) && !name.equals(project.getName()))){ 
+          Alert alert = new Alert(AlertType.WARNING, "A project with this name already exists.\n Duplicate project names are not permitted.");
+          alert.showAndWait().filter(r -> r == ButtonType.OK);
+          return;
+      }
+      
       String description = descriptionField.getText();
       if (description == null) {
         description = new String();
@@ -96,23 +107,30 @@ public class ProjectBox {
 
 
       if (missingFields) {
-        Alert alert = new Alert(AlertType.WARNING, "Required Fields Are Missing");
-        alert.showAndWait().filter(r -> r == ButtonType.OK);
-        return;
+    	  Alert alert = new Alert(AlertType.WARNING, "Required Fields Are Missing");
+    	  alert.showAndWait().filter(r -> r == ButtonType.OK);
+    	  return;
       } else {
-        
-        project.setName(name);
-        project.setDescription(description);
-        project.setDeadline(deadline);
-        project.setDateCreated(new Date());
-        project.setOpenStatus(status);
-        project.setIssueList(new ArrayList<Issue>());
-        projectSaved = true;
-      }
-      
-      editingStage.hide();
-    }
+    	  projectSaved = true;
+    	  if (project == null) {
+    		  Date dateClosed = null;
+    		  if (status == status.CLOSED) {
+    			  dateClosed = new Date();
+    		  }
+    		  project = new Project(new ArrayList<Issue>(),name,description,deadline,new Date(), new Date(),dateClosed, status);
+    	  } 
+    	  else {
+    		  project.setName(name);
+    		  project.setDescription(description);
+    		  project.setDeadline(deadline);
+    		  project.setDateLastAccessed(new Date());
+    		  project.setOpenStatus(status);
+    		  
+    	  }
 
+    	  editingStage.hide();
+      }
+    }
   }
 
   /**
@@ -120,6 +138,7 @@ public class ProjectBox {
    */
   public ProjectBox(Project project, Sidebar sidebar) {
     this.project = project;
+    this.sidebar = sidebar;
     constructEditBox();
   }
 
@@ -147,7 +166,7 @@ public class ProjectBox {
 
       openStatusBox = new ComboBox<Project.Status>(
           FXCollections.observableArrayList(Project.Status.OPEN, Project.Status.CLOSED));
-      openStatusBox.setPromptText("Issue Priority");
+      openStatusBox.setPromptText("Project Status: ");
       
       project = new Project();
 
@@ -157,7 +176,7 @@ public class ProjectBox {
 
       // TitleBox//
       titleField = new TextField();
-      titleField.setPromptText(project.getName());
+      titleField.setText(project.getName());
       titleField.setMaxWidth(650);
 
       // Description Box//
@@ -171,7 +190,7 @@ public class ProjectBox {
           project.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
       deadlineDatePicker.setPromptText("Deadline Date");
       
-      ComboBox<Project.Status> openStatusBox = new ComboBox<Project.Status>(
+      openStatusBox = new ComboBox<Project.Status>(
           FXCollections.observableArrayList(Project.Status.OPEN, Project.Status.CLOSED));
       openStatusBox.setValue(project.getOpenStatus());
     }
