@@ -328,7 +328,7 @@ public class IssueBox {
 			descriptionField = new TextArea();
 			deadlineDatePicker = new DatePicker();
 			idField = new TextField();
-			assigneesLabel = new Label("Assignees: \n");
+			assigneesLabel = new Label("Assignees: ");
 		} else {
 			issueTitle = new Text("Edit Issue");
 			titleField = new TextField(issue.getName());
@@ -384,7 +384,7 @@ public class IssueBox {
 		assigneeField = new TextField();
 		assigneeField.setPromptText("Assignee's Name");
 		addAssigneeButton = new Button("Add");
-
+		addAssigneeButton.setOnAction(e->addAssigneeButtonAction(e));
 		assigneeBox = new HBox();
 		assigneeBox.getChildren().addAll(assigneeField, addAssigneeButton,
 				assigneesLabel);
@@ -425,6 +425,19 @@ public class IssueBox {
 		dialogStage.show();
 	}
 
+	private void addAssigneeButtonAction(ActionEvent e) {
+		String assignee = assigneeField.getText();
+		if (assignee == null || assignee.isBlank() || assignee.isEmpty()) {
+			return;
+		}
+		assigneeField.setText("");
+		String assignees  = assigneesLabel.getText();
+		if (!assignees.isEmpty()) {
+			assignees = assignees + "\n" + assignee;
+		}
+		assigneesLabel.setText(assignees);
+	}
+	
 	public void canceButtonAction(ActionEvent e) {
 		Alert alert = new Alert(AlertType.CONFIRMATION,
 				"If you cancel, you will lose all changes to this issue.");
