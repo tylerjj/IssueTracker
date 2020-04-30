@@ -79,7 +79,7 @@ public class Main extends Application {
 		Main.stage = new Stage();
 
 		
-//		DEMO = true;
+		DEMO = true;
 
 		if (!DEMO) {
 			File f = new File(LOCAL_DB);
