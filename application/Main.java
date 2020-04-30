@@ -42,12 +42,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -78,9 +82,48 @@ public class Main extends Application {
 		Main.projects = new ArrayList<Project>();
 		Main.stage = new Stage();
 
+		final Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		dialog.initOwner(Main.stage);
+		Button loadDemoButton = new Button("Load Demo");
+		loadDemoButton.setBackground(new Background(new BackgroundFill(Color.PALEVIOLETRED, CornerRadii.EMPTY, Insets.EMPTY)));
+		loadDemoButton.setOnAction(e->{
+			try {
+				loadDemoButtonEvent(dialog);
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		});
 		
+		Button loadLocalButton = new Button("Load Local");
+		loadLocalButton.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+		loadLocalButton.setOnAction(e->{
+			try {
+				loadLocalButtonEvent(dialog);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		
+		HBox buttonBox = new HBox(loadDemoButton, loadLocalButton);
+		Scene dialogScene = new Scene(buttonBox);
+		dialog.setScene(dialogScene);
+		dialog.show();
+	}
+	
+	public void loadDemoButtonEvent(Stage dialog) throws Exception {
 		DEMO = true;
-
+		dialog.close();
+		setupIssueTracker();
+	}
+	
+	public void loadLocalButtonEvent(Stage dialog) throws Exception {
+		DEMO = false;
+		dialog.close();
+		setupIssueTracker();
+	}
+	
+	public void setupIssueTracker() throws Exception {
 		if (!DEMO) {
 			File f = new File(LOCAL_DB);
 			if(f.exists() && !f.isDirectory()) { 
@@ -110,7 +153,6 @@ public class Main extends Application {
 		stage.setScene(testScene);
 		stage.show();
 	}
-	
 	/**
 	 * Wipes local data and starts new, fresh session
 	 */

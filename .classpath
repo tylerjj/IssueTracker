@@ -12,6 +12,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX11-MartinD"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX11-TylerJ"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX11-MingruiL"/>
-	<classpathentry kind="lib" path="json-simple-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
