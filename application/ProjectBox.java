@@ -237,7 +237,7 @@ public class ProjectBox {
     frame.setCenter(body);
     frame.setTop(projectTitle);
     
-    cancelButton.setOnAction(e->editingStage.hide());
+    cancelButton.setOnAction(e->editingStage.close());
     SaveHandler saveHandler = new SaveHandler(saveButton);
     saveButton.setOnAction(saveHandler);
   }

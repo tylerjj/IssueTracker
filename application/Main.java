@@ -85,6 +85,19 @@ public class Main extends Application {
 		final Stage dialog = new Stage();
 		dialog.initModality(Modality.APPLICATION_MODAL);
 		dialog.initOwner(Main.stage);
+		
+		Label instructionLabel = new Label(
+				new String("Hello Instructor/TA, please choose from the following:\n"
+				+ "Open Local: On first run, the IssueTracker will be fresh without any\n"
+				+ "pre-existing data. Any changes you make will be stored and used to\n"
+				+ "initialize Local on future runs.\n"
+				+ "\n"
+				+ "Open Demo: On first run, the IssueTracker will be pre-loaded for the \n"
+				+ "purposes of demonstration. Any changes you make will be stored and\n"
+				+ "used to initialize Demo on future runs.\n"));
+		instructionLabel.setFont(new Font("arial", 15));
+		instructionLabel.setPadding(new Insets(10,10,10,10));
+		
 		Button loadDemoButton = new Button("Load Demo");
 		loadDemoButton.setBackground(new Background(new BackgroundFill(Color.PALEVIOLETRED, CornerRadii.EMPTY, Insets.EMPTY)));
 		loadDemoButton.setOnAction(e->{
@@ -105,8 +118,10 @@ public class Main extends Application {
 			}
 		});
 		
+		
 		HBox buttonBox = new HBox(loadDemoButton, loadLocalButton);
-		Scene dialogScene = new Scene(buttonBox);
+		VBox dialogFrame = new VBox(instructionLabel, buttonBox);
+		Scene dialogScene = new Scene(dialogFrame);
 		dialog.setScene(dialogScene);
 		dialog.show();
 	}
@@ -245,7 +260,6 @@ public class Main extends Application {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void saveLocalSession() throws FileNotFoundException, IOException, ParseException {
-		System.out.println("Saving to localdb.json");
 		JSONObject jo = new JSONObject();
 		int p_index = 0;
 		for (Project p : projects) {
@@ -284,8 +298,14 @@ public class Main extends Application {
 			jo.put(p_index, m);
 			p_index++;
 		}
-		
-		PrintWriter pw = new PrintWriter(LOCAL_DB);
+		String db;
+		if (DEMO) {
+			db = DEMO_DB;
+		} else {
+			db = LOCAL_DB;
+		}
+		System.out.println("Saving to "+db);
+		PrintWriter pw = new PrintWriter(db);
 		pw.write(jo.toJSONString());
 		pw.flush();
 		pw.close();

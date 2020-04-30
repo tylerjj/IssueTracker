@@ -123,18 +123,18 @@ public class ProjectHandler {
 		if (newProjectBox.getProjectSaved()) {
 			
 			Project p = newProjectBox.getProject();
+			System.out.println("Project Name Being Saved: "+p.getName());
 			
 			if (sidebar.getProjectList().getItems().contains(p.getName())){
-				int index = sidebar.getProjectList().getItems().indexOf(p.getName());
-				projects.remove(index);
-				projects.add(index, p);
-				//projects.removeIf(project->project.getName().equals(p.getName()));
-			}	else {
-				
-				// Stores the newly saved project in our list of projects.
-				projects.add(p);
+//				int index = sidebar.getProjectList().getItems().indexOf(p.getName());
+//				projects.remove(index);
+//				projects.add(index, p);
+				projects.removeIf(project->project.getName().equals(p.getName()));
 			}
-			
+			System.out.println("Add project to sidebar.");
+			// Stores the newly saved project in our list of projects.
+			projects.add(p);
+			System.out.println("Number of Projects: "+projects.size());
 			// Sets the project names to be displayed in our sidebar.
 			sidebar.setProjectNames(projects);
 			
@@ -184,7 +184,6 @@ public class ProjectHandler {
 		
 		ProjectBox newProjectBox = new ProjectBox(projectDataView.getProject(), sidebar,dialog);
 		newProjectBox.show();
-		
 		dialog.addEventHandler(ProjectBox.SaveDataEvent.SAVE_PRESSED, event -> saveDataAction(newProjectBox));
 	}
 }

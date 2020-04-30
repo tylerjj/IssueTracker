@@ -93,7 +93,9 @@ public class ProjectDataView extends BorderPane {
 			this.setLeft(null);
 			this.setRight(null);
 			this.setBottom(null);
-			this.setCenter(new Label("Select or create a project"));
+			Label emptyViewLabel = new Label("Select or create a project");
+			emptyViewLabel.setPadding(new Insets(40,60,40,60));
+			this.setCenter(emptyViewLabel);
 		} else {
 				this.project = project;
 				issues = project.getIssueList();
