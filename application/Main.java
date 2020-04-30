@@ -97,7 +97,6 @@ public class Main extends Application {
 					loadDB(DEMO_DB);
 				}			
 			}
-			
 		}
 		
 		
