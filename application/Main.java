@@ -158,13 +158,13 @@ public class Main extends Application {
 				issue.setName(i_map.get("name").toString());
 				issue.setDescription(i_map.get("description").toString());
 				String priority = i_map.get("priority").toString();
-				if (priority == "LOW") issue.setPriority(Issue.Priority.LOW);
-				else if (priority == "MEDIUM") issue.setPriority(Issue.Priority.MEDIUM);
+				if (priority.contentEquals("LOW")) issue.setPriority(Issue.Priority.LOW);
+				else if (priority.contentEquals("MEDIUM")) issue.setPriority(Issue.Priority.MEDIUM);
 				else issue.setPriority(Issue.Priority.HIGH);
 				issue.setID(i_map.get("ID").toString());
 				String status = i_map.get("status").toString();
-				if (status == "TODO") issue.setStatus(Issue.Status.TODO);
-				else if (status == "IN_PROGRESS") issue.setStatus(Issue.Status.IN_PROGRESS);
+				if (status.contentEquals("TODO")) issue.setStatus(Issue.Status.TODO);
+				else if (status.contentEquals("IN_PROGRESS")) issue.setStatus(Issue.Status.IN_PROGRESS);
 				else issue.setStatus(Issue.Status.COMPLETE);
 				issue.setDeadline(DATE_FORMAT.parse(i_map.get("deadline").toString()));
 				issue.setDateCreated(DATE_FORMAT.parse(i_map.get("dateCreated").toString()));
@@ -172,11 +172,11 @@ public class Main extends Application {
 				if (i_map.get("dateClosed").toString().contentEquals("")) p.setDateClosed(null);
 				else issue.setDateClosed(DATE_FORMAT.parse(i_map.get("dateClosed").toString()));
 				ArrayList<String> assignees = new ArrayList<String>();
-				assignees.add("Alec");	// FIXME - placeholder
-//				String[] assigneesA = (String[]) i_map.get("assignees");
-//				for (String a : assigneesA) {
-//					assignees.add(a);
-//				}
+				JSONArray jsArray= (JSONArray) i_map.get("assignees");
+				System.out.println(jsArray);
+				for (Object a : jsArray) {
+					assignees.add(a.toString());
+				}
 				issue.setAssignees(assignees);
 
 				issueList.add(issue);
@@ -214,7 +214,7 @@ public class Main extends Application {
 			m.put("dateCreated", DATE_FORMAT.format(p.getDateCreated()));
 			m.put("dateLastAccessed", DATE_FORMAT.format(p.getDateLastAccessed()));
 			if (p.getDateClosed() == null) m.put("dateClosed", "");
-			else m.put("dateClosed", DATE_FORMAT.format(p.getDateClosed())); // Throws np
+			else m.put("dateClosed", DATE_FORMAT.format(p.getDateClosed()));
 			m.put("status", p.getOpenStatus().toString());
 			Map issueList = new LinkedHashMap();
 			int i_index = 0;
@@ -228,10 +228,10 @@ public class Main extends Application {
 				issueMap.put("deadline", DATE_FORMAT.format(i.getDeadline()));
 				issueMap.put("dateCreated", DATE_FORMAT.format(i.getDateCreated()));
 				issueMap.put("dateLastUpdated", DATE_FORMAT.format(i.getDateLastUpdated()));
-				if (i.getDateClosed() != null) issueMap.put("dateClosed", DATE_FORMAT.format(i.getDateClosed()));  // np
+				if (i.getDateClosed() != null) issueMap.put("dateClosed", DATE_FORMAT.format(i.getDateClosed()));
 				else issueMap.put("dateClosed", "");
 				JSONArray assignees = new JSONArray();
-				for (String assignee: i.getAssignees()) { // TODO - Not storing assignees
+				for (String assignee: i.getAssignees()) {
 					assignees.add(assignee);
 				}
 				issueMap.put("assignees", assignees);
