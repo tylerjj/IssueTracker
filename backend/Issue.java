@@ -124,6 +124,9 @@ public class Issue implements IssueInterface {
 	@Override
 	public void setStatus(Enum status) {
 		this.status = (Status) status;
+		if (this.status == this.status.COMPLETE && this.dateClosed == null) {
+			this.dateClosed = new Date();
+		}
 	}
 
 	@Override
@@ -134,6 +137,7 @@ public class Issue implements IssueInterface {
 	@Override
 	public void setAssignees(ArrayList<String> assignees) {
 		this.assignees = assignees;
+		System.out.println(this.assignees);
 	}
 	
 	@Override

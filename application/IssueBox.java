@@ -292,7 +292,6 @@ public class IssueBox {
 			issue.setAssignees(assignees);
 			issue.setDateLastUpdated(new Date());
 			issue.setDateCreated(new Date());
-			issue.setDateClosed(null);
 
 			Event saveDataEvent = new SaveDataEvent();
 			dialogStage.fireEvent(saveDataEvent);
