@@ -77,6 +77,7 @@ public class Main extends Application {
 		// Default init vals
 		Main.projects = new ArrayList<Project>();
 		Main.stage = new Stage();
+
 		
 //		DEMO = true;
 
@@ -102,7 +103,6 @@ public class Main extends Application {
 		
 		ProjectHandler projectHandler = new ProjectHandler(projects, stage);
 		
-
 		BorderPane dashBoard = new BorderPane();
 		dashBoard.setCenter(projectHandler.projectDataView);
 		dashBoard.setLeft(projectHandler.sidebar.toNode());
