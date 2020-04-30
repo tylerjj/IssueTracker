@@ -1,5 +1,7 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -63,6 +65,8 @@ public class Main extends Application {
 	private static final String LOCAL_DB = DATA_DIR + "localdb.json";
 	private static final String DEMO_DB = DATA_DIR + "demodb.json";
 	
+	public static Boolean DEMO = false;
+	
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
 	@Override
@@ -74,9 +78,27 @@ public class Main extends Application {
 		Main.projects = new ArrayList<Project>();
 		Main.stage = new Stage();
 		
-		// Uncomment both to start with fresh session for testing write accuracy
-//		loadDB(DEMO_DB); // Uncomment to load demo data.
-		loadDB(LOCAL_DB); // Uncomment to load local data and test persistence.
+//		DEMO = true;
+
+		if (!DEMO) {
+			File f = new File(LOCAL_DB);
+			if(f.exists() && !f.isDirectory()) { 
+				BufferedReader br = new BufferedReader(new FileReader(LOCAL_DB));     
+				if (br.readLine() != null) {
+					loadDB(LOCAL_DB);
+				}			
+			}
+		} else {
+			File f = new File(DEMO_DB);
+			if(f.exists() && !f.isDirectory()) { 
+				BufferedReader br = new BufferedReader(new FileReader(DEMO_DB));     
+				if (br.readLine() != null) {
+					loadDB(DEMO_DB);
+				}			
+			}
+			
+		}
+		
 		
 		ProjectHandler projectHandler = new ProjectHandler(projects, stage);
 		
@@ -170,6 +192,7 @@ public class Main extends Application {
 		for (Project p: projects) {
 			System.out.println(p.getName());
 		}
+		
 	}
 	
 	/**
