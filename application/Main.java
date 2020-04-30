@@ -189,7 +189,8 @@ public class Main extends Application {
 			m.put("deadline", DATE_FORMAT.format(p.getDeadline()));
 			m.put("dateCreated", DATE_FORMAT.format(p.getDateCreated()));
 			m.put("dateLastAccessed", DATE_FORMAT.format(p.getDateLastAccessed()));
-//			m.put("dateClosed", DATE_FORMAT.format(p.getDateClosed())); // Throws np
+			if (p.getDateClosed() == null) m.put("dateClosed", "");
+			else m.put("dateClosed", DATE_FORMAT.format(p.getDateClosed())); // Throws np
 			m.put("status", p.getOpenStatus().toString());
 			Map issueList = new LinkedHashMap();
 			int i_index = 0;
@@ -203,7 +204,8 @@ public class Main extends Application {
 				issueMap.put("deadline", DATE_FORMAT.format(i.getDeadline()));
 				issueMap.put("dateCreated", DATE_FORMAT.format(i.getDateCreated()));
 				issueMap.put("dateLastUpdated", DATE_FORMAT.format(i.getDateLastUpdated()));
-//				issueMap.put("dateClosed", DATE_FORMAT.format(i.getDateClosed()));  // np
+				if (i.getDateClosed() != null) issueMap.put("dateClosed", DATE_FORMAT.format(i.getDateClosed()));  // np
+				else issueMap.put("dateClosed", "");
 				JSONArray assignees = new JSONArray();
 				for (String assignee: i.getAssignees()) { // TODO - Not storing assignees
 					assignees.add(assignee);

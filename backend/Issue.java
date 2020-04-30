@@ -68,6 +68,7 @@ public class Issue implements IssueInterface {
 	public Issue(String JSON) {
 		//TODO: Take in a string representing a JSONObject of an Issue and parse it.
 		// Use this information to fill in the values of this Issue object.
+		this.dateLastUpdated = new Date();
 	}
 	
 	public Issue(Priority priority, String name, String description, Date deadline, Status status, String ID, ArrayList<String> assignees, Date lastUpdated, Date created, Date closed) {
@@ -91,7 +92,7 @@ public class Issue implements IssueInterface {
 	@Override
 	public void setName(String name) {
 		this.name = name;
-		
+		this.dateLastUpdated = new Date();
 	}
 
 	@Override
@@ -102,6 +103,7 @@ public class Issue implements IssueInterface {
 	@Override
 	public void setDescription(String description) {
 		this.description = description;
+		this.dateLastUpdated = new Date();
 		
 	}
 
@@ -113,7 +115,7 @@ public class Issue implements IssueInterface {
 	@Override
 	public void setID(String ID) {
 		this.ID = ID;
-		
+		this.dateLastUpdated = new Date();
 	}
 
 	@Override
@@ -124,6 +126,7 @@ public class Issue implements IssueInterface {
 	@Override
 	public void setStatus(Enum status) {
 		this.status = (Status) status;
+		this.dateLastUpdated = new Date();
 	}
 
 	@Override
@@ -134,17 +137,20 @@ public class Issue implements IssueInterface {
 	@Override
 	public void setAssignees(ArrayList<String> assignees) {
 		this.assignees = assignees;
+		this.dateLastUpdated = new Date();
 	}
 	
 	@Override
 	public void addAssignee(String name) {
 		assignees.add(name);
+		this.dateLastUpdated = new Date();
 		
 	}
 
 	@Override
 	public void removeAssignee(String name) {
 		assignees.remove(name);
+		this.dateLastUpdated = new Date();
 		
 	}
 
@@ -156,6 +162,7 @@ public class Issue implements IssueInterface {
 	@Override
 	public void setPriority(Enum priority) {
 		this.priority = (Priority) priority;
+		this.dateLastUpdated = new Date();
 		
 	}
 
@@ -167,6 +174,7 @@ public class Issue implements IssueInterface {
 	@Override
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
+		this.dateLastUpdated = new Date();
 		
 	}
 
@@ -178,6 +186,7 @@ public class Issue implements IssueInterface {
 	@Override
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+		this.dateLastUpdated = new Date();
 	}
 
 	@Override
