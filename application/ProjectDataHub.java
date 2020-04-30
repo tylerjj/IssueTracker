@@ -76,19 +76,11 @@ public class ProjectDataHub extends BorderPane {
 
 	TextArea descriptionField;
 	
-	VBox newSessionOptions;
-	Button newLocalDB;
-	Button loadLocalDB;
-	Button loadDemoDB;
 	
 	
 	public ProjectDataHub(Project project, Stage currentStage) {
 		this.currentStage = currentStage;
 		if (project == null) {
-//			newLocalDB = new Button
-//			newSessionOptions = new VBox(newLocalDB, loadLocalDB, loadDemoDB);
-//			this.setCenter(newSessionOptions);
-//			Main.loadLocalDB(); // Refresh
 			this.setCenter(new Label("Select or create a project"));
 
 		} else {
@@ -104,6 +96,9 @@ public class ProjectDataHub extends BorderPane {
 
 	}
 	
+	/**
+	 * @param project the project to be set
+	 */
 	public void setProject(Project project) {
 		if (project == null) {
 			this.setLeft(null);
@@ -162,6 +157,15 @@ public class ProjectDataHub extends BorderPane {
 		this.setBottom(issueHandler.getContainer());
 		this.setPadding(new Insets(10, 10, 20, 0));
 	}
+	
+	/**
+	 * @return the project
+	 */
+	
+	public Project getProject() {
+		return project;
+	}
+	
 	/**
 	 * @return the description
 	 */

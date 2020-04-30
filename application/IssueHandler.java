@@ -145,9 +145,13 @@ public class IssueHandler {
 		//https://stackoverflow.com/questions/44101426/javafx-alert-box-on-button-click/44101484
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get()==ButtonType.OK) {
+			// Remove the issue from the list of issues. 
+			issues.removeIf(issue->issue.getID().equals(selectedRow.getIssue().getID()));
 			issueTable.removeIssueFromRow(selectedRow);
 		}
 		setCellsUnselected();
+		
+		
 	}
 	
 	public void searchIssueAction(ActionEvent e) {
