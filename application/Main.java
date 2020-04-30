@@ -76,7 +76,7 @@ public class Main extends Application {
 		
 		// Uncomment both to start with fresh session for testing write accuracy
 //		loadDB(DEMO_DB); // Uncomment to load demo data.
-//		loadDB(LOCAL_DB); // Uncomment to load local data and test persistence.
+		loadDB(LOCAL_DB); // Uncomment to load local data and test persistence.
 		
 		ProjectHandler projectHandler = new ProjectHandler(projects, stage);
 		
@@ -123,44 +123,46 @@ public class Main extends Application {
 			p.setDeadline(DATE_FORMAT.parse(p_map.get("deadline").toString()));
 			p.setDateCreated(DATE_FORMAT.parse(p_map.get("dateCreated").toString()));
 			p.setDateLastAccessed(DATE_FORMAT.parse(p_map.get("dateLastAccessed").toString()));
-//			p.setDateClosed(DATE_FORMAT.parse(p_map.get("dateClosed").toString()));
-			p.setDateClosed(new Date());	// REMOVE when line above is uncomented
+			if (p_map.get("dateClosed").toString().contentEquals("")) p.setDateClosed(new Date());	// FIXME - Probably wrong default val
+			else p.setDateClosed(new Date());
 			if (p_map.get("status").equals("OPEN")) p.setOpenStatus(Project.Status.OPEN);
 			else p.setOpenStatus(Project.Status.CLOSED);
-
+			
 			ArrayList<Issue> issueList = new ArrayList<Issue>();
-//			Integer i_index = 0;
-//			while (((Map) p_map.get("issueList")).containsKey(i_index.toString())) {
-//				Map i_map = (Map) ((Map) p_map.get("issueList")).get(i_index.toString());
-//
-//				Issue issue = new Issue();
-//				issue.setName(i_map.get("name").toString());
-//				issue.setDescription(i_map.get("description").toString());
-//				String priority = i_map.get("priority").toString();
-//				if (priority == "LOW") issue.setPriority(Issue.Priority.LOW);
-//				else if (priority == "MEDIUM") issue.setPriority(Issue.Priority.MEDIUM);
-//				else issue.setPriority(Issue.Priority.HIGH);
-//				issue.setID(i_map.get("ID").toString());
-//				String status = i_map.get("status").toString();
-//				if (status == "TODO") issue.setStatus(Issue.Status.TODO);
-//				else if (status == "IN_PROGRESS") issue.setStatus(Issue.Status.IN_PROGRESS);
-//				else issue.setStatus(Issue.Status.COMPLETE);
-//				issue.setDeadline(DATE_FORMAT.parse(i_map.get("deadline").toString()));
-//				issue.setDateCreated(DATE_FORMAT.parse(i_map.get("dateCreated").toString()));
-//				issue.setDateLastUpdated(DATE_FORMAT.parse(i_map.get("dateLastUpdated").toString()));
-////				issue.setDateClosed(DATE_FORMAT.parse(i_map.get("dateClosed").toString()));
-//				issue.setDateClosed(new Date());	// Remove when line above is uncommented
-//				ArrayList<String> assignees = new ArrayList<String>();
-//				assignees.add("Alec");	// FIXME - placeholder
-////				String[] assigneesA = (String[]) i_map.get("assignees");
-////				for (String a : assigneesA) {
-////					assignees.add(a);
-////				}
-//				issue.setAssignees(assignees);
-//
-//				issueList.add(issue);
-//				i_index++;
-//			}
+			Integer i_index = 0;
+			while (((Map) p_map.get("issueList")).containsKey(i_index.toString())) {
+				Map i_map = (Map) ((Map) p_map.get("issueList")).get(i_index.toString());
+
+				Issue issue = new Issue();
+				issue.setName(i_map.get("name").toString());
+				issue.setDescription(i_map.get("description").toString());
+				String priority = i_map.get("priority").toString();
+				if (priority == "LOW") issue.setPriority(Issue.Priority.LOW);
+				else if (priority == "MEDIUM") issue.setPriority(Issue.Priority.MEDIUM);
+				else issue.setPriority(Issue.Priority.HIGH);
+				issue.setID(i_map.get("ID").toString());
+				String status = i_map.get("status").toString();
+				if (status == "TODO") issue.setStatus(Issue.Status.TODO);
+				else if (status == "IN_PROGRESS") issue.setStatus(Issue.Status.IN_PROGRESS);
+				else issue.setStatus(Issue.Status.COMPLETE);
+				issue.setDeadline(DATE_FORMAT.parse(i_map.get("deadline").toString()));
+				issue.setDateCreated(DATE_FORMAT.parse(i_map.get("dateCreated").toString()));
+				issue.setDateLastUpdated(DATE_FORMAT.parse(i_map.get("dateLastUpdated").toString()));
+				if (i_map.get("dateClosed").toString().contentEquals("")) p.setDateClosed(null);
+				else issue.setDateClosed(DATE_FORMAT.parse(i_map.get("dateClosed").toString()));
+				ArrayList<String> assignees = new ArrayList<String>();
+				assignees.add("Alec");	// FIXME - placeholder
+//				String[] assigneesA = (String[]) i_map.get("assignees");
+//				for (String a : assigneesA) {
+//					assignees.add(a);
+//				}
+				issue.setAssignees(assignees);
+
+				issueList.add(issue);
+				i_index++;
+			}
+			p.setIssueList(issueList);
+
 			projects.add(p);
 			p_index++;
 		}

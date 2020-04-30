@@ -47,6 +47,7 @@ public class Project implements ProjectInterface {
 		dateCreated = new Date();
 		dateLastAccessed = new Date();
 		dateClosed = null;
+		issueList = new ArrayList<Issue>();
 		open = Status.OPEN;
 	}
 
