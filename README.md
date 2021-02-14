@@ -14,8 +14,8 @@ features to be implemented. Will compliment git version control for easy trackin
 
 ## Known Bugs
 
-- [ ] Foo
+- [ ] Failed to document bug list at time of submission.
 
 ## Unimplemented Features
 
-- [ ] Faa
+- [ ] Failed to document unimplemented features at time of submission.
